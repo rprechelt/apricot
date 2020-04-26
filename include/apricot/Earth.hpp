@@ -1,7 +1,6 @@
 #pragma once
 
 #include "apricot/Coordinates.hpp"
-#include "apricot/utils/CRTP.hpp"
 
 namespace apricot {
 
