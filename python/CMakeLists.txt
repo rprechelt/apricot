@@ -1,9 +1,11 @@
 # the list of sources to wrap for Python
 # these are sources in the current directory
 list(APPEND SOURCES
+  "PyFlux.cpp"
   "PyPREM.cpp"
   "PyEarth.cpp"
   "PySource.cpp"
+  "PyParticle.cpp"
   "PyAtmosphere.cpp"
   )
 
