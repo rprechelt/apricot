@@ -1,0 +1,7 @@
+include README.md LICENSE
+global-include CMakeLists.txt
+recursive-include src *
+recursive-include python *
+recursive-include apricot *
+recursive-include data *
+recursive-include include *
