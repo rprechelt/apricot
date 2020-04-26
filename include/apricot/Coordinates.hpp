@@ -1,6 +1,8 @@
 #pragma once
 
 #include <Eigen/Core>
+#include <cfloat>
+#include <cmath>
 
 namespace apricot {
 
@@ -38,5 +40,56 @@ namespace apricot {
    * An alias for an array of scalar values.
    */
   using Array = Eigen::ArrayXd;
+
+  /**
+   * Convert a CartesianCoordinate to a SphericalCoordinate
+   *
+   * @param location   A CartesianCoordinate (x, y, z).
+   *
+   */
+  static auto
+  to_spherical(const CartesianCoordinate& location) -> SphericalCoordinate {
+
+    // extract out the components
+    const auto x{location(0)};
+    const auto y{location(1)};
+    const auto z{location(2)};
+
+    // get R and theta
+    const double r{location.norm()};
+    const double theta{acos(z / r)};
+
+    // we need to check for the case when x AND y are EXACTLY zero
+    // i.e. when specifying explicit constants in test programs or
+    // during command line arguments. In that case, phi is undefined.
+    // in that case, we assume that phi == 0
+    const double phi{(abs(x) < DBL_MIN) ? 0. : atan(y / x)};
+
+    // assign the elements of the vector
+    return SphericalCoordinate(r, theta, phi);
+  }
+
+  /**
+   * Convert a SphericalCoordinate to a CartesianCoordinate.
+   *
+   * @param location   A SphericalCoordinate (r, theta, phi).
+   *
+   */
+  static auto
+  to_cartesian(const SphericalCoordinate& location) -> CartesianCoordinate {
+
+    // get a named reference to each component to be safe
+    const auto radius{location(0)};
+    const auto theta{location(1)};
+    const auto phi{location(2)};
+
+    // convert to (x, y, z)
+    const auto x{radius * sin(theta) * cos(phi)};
+    const auto y{radius * sin(theta) * sin(phi)};
+    const auto z{radius * cos(theta)};
+
+    // and create the cartesian coordinate
+    return CartesianCoordinate(x, y, z);
+  }
 
 } // namespace apricot

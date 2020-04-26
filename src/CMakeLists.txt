@@ -3,7 +3,9 @@
 list(APPEND LIB_SOURCES
   "PREM.cpp"
   "Earth.cpp"
+  "Geometry.cpp"
   "SphericalEarth.cpp"
+  "SphericalCapSource.cpp"
   "ExponentialAtmosphere.cpp"
   )
 
@@ -31,6 +33,7 @@ find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 
 #################### START INCLUDES ####################
 target_include_directories(libApricot PRIVATE "${CMAKE_HOME_DIRECTORY}/include")
+target_include_directories(libApricot PRIVATE "${CMAKE_HOME_DIRECTORY}/src")
 #target_include_directories(libApricot SYSTEM PUBLIC "${CMAKE_HOME_DIRECTORY}/extern/units/include")
 #target_include_directories(libApricot SYSTEM PRIVATE "${CMAKE_HOME_DIRECTORY}/extern/magic_enum/include")
 
