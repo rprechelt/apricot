@@ -3,6 +3,7 @@
 list(APPEND SOURCES
   "PyPREM.cpp"
   "PyEarth.cpp"
+  "PySource.cpp"
   "PyAtmosphere.cpp"
   )
 

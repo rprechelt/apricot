@@ -5,6 +5,7 @@ namespace py = pybind11;
 // all of our module functions
 void Py_Earth(py::module&);
 void Py_PREM(py::module&);
+void Py_Source(py::module&);
 void Py_Atmosphere(py::module&);
 
 // create our Python module
@@ -18,6 +19,7 @@ PYBIND11_MODULE(_apricot, m) {
   // the various modules
   Py_Earth(m); // Earth.hpp
   Py_PREM(m); // PREM.hpp
+  Py_Source(m); // Source.hpp
   Py_Atmosphere(m); // Atmosphere.hpp
 
 }
