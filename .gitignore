@@ -17,3 +17,4 @@ TAGS
 *.auctex*
 *.org
 *.coverage
+*.pdf
