@@ -9,9 +9,6 @@ using namespace apricot;
 void
 Py_Source(py::module& m) {
 
-  // set a docstring
-  m.doc() = "Generate particles from different astrophysical sources.";
-
   // the base FluxModel class
   py::class_<Source>(m, "Source");
 
