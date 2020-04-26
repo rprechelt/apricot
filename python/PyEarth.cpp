@@ -34,12 +34,15 @@ Py_Earth(py::module& m) {
 
   // SphericalEarth
   py::class_<SphericalEarth, Earth>(m, "SphericalEarth")
-    .def(py::init<const double>(), py::arg("radius") = SphericalEarth::POLAR,
-         "Create a spherical Earth model.")
-    .def("radius", &SphericalEarth::radius,
-         "The radius of the Earth at a given location [km].")
-    .def("cap_area", &SphericalEarth::cap_area,
-         "The area of a cap centered at a location with a half-opening angle [km^2].")
+      .def(py::init<const double>(), py::arg("radius") = SphericalEarth::POLAR,
+           "Create a spherical Earth model.")
+      .def("radius", &SphericalEarth::radius,"The radius of the Earth at a given location [km].")
+      .def_readonly_static("polar_radius", &SphericalEarth::POLAR)
+      .def_readonly_static("polar_curvature", &SphericalEarth::POLAR_CURVATURE)
+      .def_readonly_static("equatorial_radius", &SphericalEarth::EQUATORIAL)
+      .def_readonly_static("volumetric_radius", &SphericalEarth::VOLUMETRIC)
+      .def("cap_area", &SphericalEarth::cap_area,
+           "The area of a cap centered at a location with a half-opening angle [km^2].")
       .def(
           "radius",
           [](const SphericalEarth& earth, const CartesianCoordinates& locations) -> Array {
@@ -55,5 +58,4 @@ Py_Earth(py::module& m) {
             return out;
           },
           "The radius of the Earth at several locations [km].");
-
 }
