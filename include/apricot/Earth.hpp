@@ -15,7 +15,6 @@ namespace apricot {
   class Earth {
 
     public:
-
     /**
      * The radius of the Earth at a given location.
      *
@@ -25,7 +24,7 @@ namespace apricot {
      */
     virtual auto
     radius(const CartesianCoordinate& location) const -> double = 0;
-    
+
     /**
      * The density of the Earth at a given location.
      *

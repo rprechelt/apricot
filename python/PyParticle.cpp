@@ -12,11 +12,14 @@ Py_Particle(py::module& m) {
   // Particle
   py::class_<Particle>(m, "Particle")
       .def_property("energy", &Particle::get_energy, &Particle::set_energy)
-      .def("__repr__",
-           [](const Particle& p) { return "Particle(" + std::to_string(p.get_energy()) + ")"; });
+      .def("__repr__", [](const Particle& p) {
+        return "Particle(" + std::to_string(p.get_energy()) + ")";
+      });
 
-  // Particle
+  // Proton
   py::class_<Proton, Particle>(m, "Proton")
-      .def("__repr__",
-           [](const Proton& p) { return "Proton(" + std::to_string(p.get_energy()) + ")"; });
+      .def(py::init<const double>())
+      .def("__repr__", [](const Proton& p) {
+        return "Proton(" + std::to_string(p.get_energy()) + ")";
+      });
 }

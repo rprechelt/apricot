@@ -28,7 +28,9 @@ namespace apricot {
    * @returns point    A point on the spherical cap.
    */
   auto
-  random_cap_point(const double mintheta, const double maxtheta, const double minphi,
+  random_cap_point(const double mintheta,
+                   const double maxtheta,
+                   const double minphi,
                    const double maxphi) -> Vector;
 
   /**
@@ -49,7 +51,8 @@ namespace apricot {
    * @returns intersect  The intersection of the ray with the spher.
    */
   auto
-  propagate_to_sphere(const CartesianCoordinate& start, const Vector& direction,
+  propagate_to_sphere(const CartesianCoordinate& start,
+                      const Vector& direction,
                       const double radius) -> CartesianCoordinate;
 
 } // namespace apricot

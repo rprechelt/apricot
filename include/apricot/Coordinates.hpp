@@ -42,6 +42,26 @@ namespace apricot {
   using Array = Eigen::ArrayXd;
 
   /**
+   * Convert degrees to radians.
+   *
+   * @param degree    An angle in degrees.
+   */
+  inline auto
+  deg_to_rad(const double degree) noexcept -> double {
+    return (degree / 180.) * M_PI;
+  }
+
+  /**
+   * Convert radians to degrees.
+   *
+   * @param radian    An angle in radians.
+   */
+  inline auto
+  rad_to_deg(const double radian) noexcept -> double {
+    return (radian / M_PI) * 180.;
+  }
+
+  /**
    * Convert a CartesianCoordinate to a SphericalCoordinate
    *
    * @param location   A CartesianCoordinate (x, y, z).
@@ -76,7 +96,7 @@ namespace apricot {
    *
    */
   static auto
-  to_cartesian(const SphericalCoordinate& location) -> CartesianCoordinate {
+  to_cartesian(const SphericalCoordinate& location) noexcept -> CartesianCoordinate {
 
     // get a named reference to each component to be safe
     const auto radius{location(0)};

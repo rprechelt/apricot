@@ -1,6 +1,5 @@
 #pragma once
 
-
 namespace apricot {
 
   /**
@@ -10,7 +9,6 @@ namespace apricot {
   class Atmosphere {
 
     public:
-
     /**
      * The density of the atmosphere at a given altitude.
      *
@@ -21,7 +19,6 @@ namespace apricot {
      */
     virtual auto
     density(const double altitude) const -> double = 0;
-
   };
 
-}
+} // namespace apricot

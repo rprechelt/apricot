@@ -1,7 +1,7 @@
 #pragma once
 
-#include "apricot/Source.hpp"
 #include "apricot/Coordinates.hpp"
+#include "apricot/Source.hpp"
 #include <cmath>
 
 namespace apricot {
@@ -44,7 +44,8 @@ namespace apricot {
      * @param center    The central angle of the spherical cap.
      *
      */
-    SphericalCapSource(const double radius = 6456.755, const double theta = M_PI / 16.,
+    SphericalCapSource(const double radius = 6456.755,
+                       const double theta  = M_PI / 16.,
                        const double center = (15 / 16.) * M_PI)
         : radius_(radius), theta_(theta), center_(center) {}
 

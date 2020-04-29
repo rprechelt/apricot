@@ -12,7 +12,7 @@ namespace apricot::PREM {
   /// @param radius    The radius within the Earth [km].
   /// @param r_earth   The radius *of* the Earth at this location [km]
   ///
-  auto __attribute__((hot))
-  density(const double radius, const double Rearth = 6356.799) -> double;
+  auto __attribute__((hot)) density(const double radius, const double Rearth = 6356.799)
+      -> double;
 
 } // namespace apricot::PREM
