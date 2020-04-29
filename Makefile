@@ -22,7 +22,7 @@ format:
 	find src include -type f -iname '*.cpp' -or -iname '*.hpp' -exec clang-format -i {} +
 
 # run the Python chain
-python: mypy isort black flake tests
+python: isort black flake tests
 
 # run the Python tests
 tests:
@@ -35,10 +35,6 @@ flake:
 # run black
 black:
 	python -m black -t py37 apricot tests
-
-# run mypy
-mypy:
-	python -m mypy apricot
 
 # run isort
 isort:
