@@ -1,6 +1,6 @@
 #include "Geometry.hpp"
 #include "apricot/earth/SphericalEarth.hpp"
-#include "Random.hpp"
+#include "apricot/Random.hpp"
 #include <stdexcept>
 
 using namespace apricot;
