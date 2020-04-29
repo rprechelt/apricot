@@ -8,10 +8,13 @@ void Py_PREM(py::module&);
 void Py_Earth(py::module&);
 void Py_Source(py::module&);
 void Py_Particle(py::module&);
-void Py_Detector(py::module &m);
+void Py_Neutrino(py::module&);
+void Py_Detector(py::module&);
 void Py_Propagator(py::module&);
 void Py_Interaction(py::module&);
 void Py_Atmosphere(py::module&);
+void Py_NeutrinoYFactor(py::module&);
+void Py_NeutrinoCrossSection(py::module&);
 
 // create our Python module
 PYBIND11_MODULE(_apricot, m) {
@@ -27,9 +30,11 @@ PYBIND11_MODULE(_apricot, m) {
   Py_PREM(m); // PREM.hpp
   Py_Source(m); // Source.hpp
   Py_Particle(m); // Particle.hpp
+  Py_Neutrino(m); // Neutrino.hpp
   Py_Detector(m); // Detector.hpp
   Py_Propagator(m); // Propagator.hpp
   Py_Interaction(m); // Interaction.hpp
   Py_Atmosphere(m); // Atmosphere.hpp
-
+  Py_NeutrinoYFactor(m); // NeutrinoYFactor.hpp
+  Py_NeutrinoCrossSection(m); // NeutrinoCrossSection.hpp
 }

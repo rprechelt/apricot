@@ -6,10 +6,13 @@ list(APPEND SOURCES
   "PyEarth.cpp"
   "PySource.cpp"
   "PyParticle.cpp"
+  "PyNeutrino.cpp"
   "PyDetector.cpp"
   "PyPropagator.cpp"
   "PyInteraction.cpp"
   "PyAtmosphere.cpp"
+  "PyNeutrinoCrossSection.cpp"
+  "PyNeutrinoYFactor.cpp"
   )
 
 # find and load PyBind11

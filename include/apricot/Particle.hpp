@@ -34,7 +34,13 @@ namespace apricot {
     static constexpr ParticleID PiPlus               = 211;
     static constexpr ParticleID PiZero               = 111;
     static constexpr ParticleID PiMinus              = -211;
+    static constexpr ParticleID Apricotino           = 0;
   } // namespace PDG
+
+  /**
+   * Particle generation (Electronic, Muonic, Tauonic)
+   */
+  enum class Generation { Electron = 0, Muon = 1, Tau = 2 };
 
   /**
    * An abstract class representing all particles.

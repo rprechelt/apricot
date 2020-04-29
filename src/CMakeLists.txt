@@ -4,14 +4,18 @@ list(APPEND LIB_SOURCES
   "PREM.cpp"
   "Earth.cpp"
   "Geometry.cpp"
+  "Neutrino.cpp"
   "Propagator.cpp"
   "Interaction.cpp"
+  "NeutrinoYFactor.cpp"
   "SphericalEarth.cpp"
   "OrbitalDetector.cpp"
   "SimplePropagator.cpp"
   "EnergyCutDetector.cpp"
+  "ElectronNeutrino.cpp"
   "AntarcticDetector.cpp"
   "SphericalCapSource.cpp"
+  "NeutrinoCrossSection.cpp"
   "ExponentialAtmosphere.cpp"
   )
 
