@@ -10,9 +10,10 @@ void Py_Source(py::module&);
 void Py_Particle(py::module&);
 void Py_Neutrino(py::module&);
 void Py_Detector(py::module&);
+void Py_Atmosphere(py::module&);
 void Py_Propagator(py::module&);
 void Py_Interaction(py::module&);
-void Py_Atmosphere(py::module&);
+void Py_ChargedLepton(py::module&);
 void Py_NeutrinoYFactor(py::module&);
 void Py_NeutrinoCrossSection(py::module&);
 
@@ -35,6 +36,7 @@ PYBIND11_MODULE(_apricot, m) {
   Py_Propagator(m); // Propagator.hpp
   Py_Interaction(m); // Interaction.hpp
   Py_Atmosphere(m); // Atmosphere.hpp
+  Py_ChargedLepton(m); // ChargedLepton.hpp
   Py_NeutrinoYFactor(m); // NeutrinoYFactor.hpp
   Py_NeutrinoCrossSection(m); // NeutrinoCrossSection.hpp
 }

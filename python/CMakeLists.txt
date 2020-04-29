@@ -11,6 +11,7 @@ list(APPEND SOURCES
   "PyPropagator.cpp"
   "PyInteraction.cpp"
   "PyAtmosphere.cpp"
+  "PyChargedLepton.cpp"
   "PyNeutrinoCrossSection.cpp"
   "PyNeutrinoYFactor.cpp"
   )

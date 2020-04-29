@@ -1,12 +1,15 @@
 ###################### FIND SOURCES ######################
 # the full list of sources
 list(APPEND LIB_SOURCES
+  "Muon.cpp"
+  "Tau.cpp"
   "PREM.cpp"
   "Earth.cpp"
   "Geometry.cpp"
   "Neutrino.cpp"
   "Propagator.cpp"
   "Interaction.cpp"
+  "TauDecayTable.cpp"
   "NeutrinoYFactor.cpp"
   "SphericalEarth.cpp"
   "OrbitalDetector.cpp"

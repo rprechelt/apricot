@@ -1,5 +1,6 @@
 #include "apricot/particles/Neutrino.hpp"
-#include "Random.hpp"
+#include "apricot/Constants.hpp"
+#include "apricot/Random.hpp"
 #include <cmath>
 #include <stdexcept>
 
@@ -19,7 +20,6 @@ Neutrino::get_interaction() const -> InteractionInfo {
 
   // exponential(lambda) has mean=1/lambda so the following have mean 1/{CC,NC}
   // the result of exponential is in g/cm^2
-  constexpr double N_A{6.0221415e23}; // mol^-1
   const double CC{-log(uniform(random::generator)) * (1. / (N_A * pow(10, CC_cross)))};
   const double NC{-log(uniform(random::generator)) * (1. / (N_A * pow(10, NC_cross)))};
 

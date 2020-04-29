@@ -2,6 +2,7 @@
 Perform some basic tests on the Paricle class and infrastructure.
 """
 import apricot
+import numpy as np
 
 
 def test_pdg():
@@ -46,3 +47,13 @@ def test_generations():
     _ = apricot.Generation.Electron
     _ = apricot.Generation.Muon
     _ = apricot.Generation.Tau
+
+
+def test_proton():
+    """
+    Perform various tests on the Proton class.
+    """
+
+    # check that I can create perotons
+    for E in np.linspace(18.0, 21.0, 10):
+        _ = apricot.Proton(E)

@@ -1,6 +1,5 @@
 #include "apricot/Particle.hpp"
 #include "apricot/particles/Neutrino.hpp"
-#include "apricot/particles/Proton.hpp"
 #include <pybind11/numpy.h>
 #include <pybind11/pybind11.h>
 
