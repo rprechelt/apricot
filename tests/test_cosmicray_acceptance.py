@@ -6,6 +6,7 @@ a balloon payload (like ANITA).
 import apricot
 import numpy as np
 
+
 def test_basic_geometric_acceptance():
     """
     Perform a basic test of the geometric
@@ -20,13 +21,13 @@ def test_basic_geometric_acceptance():
     earth = apricot.SphericalEarth(Re)
 
     # we pick particles on a cap 100km above the surface
-    source = apricot.SphericalCapSource(radius=Re + 100.)
+    source = apricot.SphericalCapSource(radius=Re + 100.0)
 
     # create a flux model that just creates (10^19) cosmic ray protons.
-    flux = apricot.FixedProtonFlux(19.)
+    flux = apricot.FixedProtonFlux(19.0)
 
     # place ANITA 37 km above the exact south pole
-    location = np.asarray([0, 0, Re+35.])
+    location = np.asarray([0, 0, Re + 35.0])
 
     # we consider anything with 1.5 degrees of the shower axis detectable
     maxview = 1.5

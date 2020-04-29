@@ -10,7 +10,7 @@ def test_prem_density():
     """
 
     # the radii that we evaluate at
-    radii = np.linspace(0., 6360., 10_000)
+    radii = np.linspace(0.0, 6360.0, 10_000)
 
     # and evaluate the density using PREM
     density = apricot.PREM.density(radii)
@@ -19,7 +19,7 @@ def test_prem_density():
     fig, ax = plt.subplots()
 
     # and make the pelots
-    ax.plot(radii, density, label='PREM')
+    ax.plot(radii, density, label="PREM")
 
     # and some labels
     ax.set_xlabel("Radius [km]")

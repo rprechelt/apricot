@@ -38,10 +38,10 @@ def test_plot_exponential_atmosphere():
     density = atmosphere.density(altitudes)
 
     # the density should always be less than 1 g/cm^3
-    np.testing.assert_array_less(density, 1.)
+    np.testing.assert_array_less(density, 1.0)
 
     # and there should be no negative densities.
-    assert np.all(density >= 0.)
+    assert np.all(density >= 0.0)
 
     # create the figure
     fig, ax = plt.subplots()

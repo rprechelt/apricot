@@ -1,11 +1,13 @@
 import apricot
 
+
 def test_create_flux():
     """
     Check that we can create the various flux models.
     """
 
-    _ = apricot.FixedProtonFlux(18.)
+    _ = apricot.FixedProtonFlux(18.0)
+
 
 def test_FixedFlux():
     """

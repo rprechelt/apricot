@@ -37,7 +37,7 @@ def test_spherical_cap():
 
     # by default a SphericalCapSource returns points on Antarctica
     # so let's check that.
-    np.testing.assert_array_less(origin[2], -6000.)
+    np.testing.assert_array_less(origin[2], -6000.0)
 
     # check that the radius is correct
     np.testing.assert_allclose(np.linalg.norm(origin), radius)
@@ -65,11 +65,11 @@ def test_spherical_cap_vectorized():
     assert directions.shape == (N, 3)
 
     # check that the direction is unit-length
-    np.testing.assert_allclose(np.linalg.norm(directions, axis=1.), 1.)
+    np.testing.assert_allclose(np.linalg.norm(directions, axis=1.0), 1.0)
 
     # by default a SphericalCapSource returns points on Antarctica
     # so let's check that.
-    np.testing.assert_array_less(origins[:, 2], -5900.)
+    np.testing.assert_array_less(origins[:, 2], -5900.0)
 
     # check that the radius is correct
     np.testing.assert_allclose(np.linalg.norm(origins, axis=1), radius)
