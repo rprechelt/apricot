@@ -1,1 +1,1 @@
-from _apricot import *
+from _apricot import *  # noqa
