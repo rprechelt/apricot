@@ -10,12 +10,19 @@ namespace apricot {
    */
   class Proton final : public Particle {
 
-  public:
-
+    public:
     /**
      * Construct a particle from an energy in log10(eV).
      */
     Proton(const double energy) : Particle(energy){};
+
+    /**
+     * Get the proton PDG ID.
+     */
+    auto
+    get_id() const -> ParticleID {
+      return PDG::Proton;
+    }
 
     /**
      * Return a new pointer to a concrete instance.

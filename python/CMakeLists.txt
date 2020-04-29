@@ -6,6 +6,9 @@ list(APPEND SOURCES
   "PyEarth.cpp"
   "PySource.cpp"
   "PyParticle.cpp"
+  "PyDetector.cpp"
+  "PyPropagator.cpp"
+  "PyInteraction.cpp"
   "PyAtmosphere.cpp"
   )
 

@@ -4,7 +4,13 @@ list(APPEND LIB_SOURCES
   "PREM.cpp"
   "Earth.cpp"
   "Geometry.cpp"
+  "Propagator.cpp"
+  "Interaction.cpp"
   "SphericalEarth.cpp"
+  "OrbitalDetector.cpp"
+  "SimplePropagator.cpp"
+  "EnergyCutDetector.cpp"
+  "AntarcticDetector.cpp"
   "SphericalCapSource.cpp"
   "ExponentialAtmosphere.cpp"
   )

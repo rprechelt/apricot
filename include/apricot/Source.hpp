@@ -10,8 +10,7 @@ namespace apricot {
    */
   class Source {
 
-  public:
-
+    public:
     /**
      * Return a random particle origin and direction.
      *
@@ -30,4 +29,4 @@ namespace apricot {
 
   }; // END: class Source
 
-} // END: namespace apricot
+} // namespace apricot

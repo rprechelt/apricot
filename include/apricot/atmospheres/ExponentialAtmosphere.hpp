@@ -10,7 +10,7 @@ namespace apricot {
    * This models the atmosphere as:
    *
    *     \rho = \rho_0 \exp { -g M h / RT }
-   * 
+   *
    */
   class ExponentialAtmosphere final : public Atmosphere {
 
@@ -30,7 +30,6 @@ namespace apricot {
     static constexpr double g{9.81};
 
     public:
-
     /*
      * The sea-level density (g/cm^3).
      */
@@ -50,7 +49,8 @@ namespace apricot {
      * @param rho0    The sea level density in [g/cm^3].
      * @param T       The reference temperature [K]
      */
-    ExponentialAtmosphere(const double rho0 = 1.225e-3, const double T = 273) : rho0_(rho0), T_(T) {};
+    ExponentialAtmosphere(const double rho0 = 1.225e-3, const double T = 273)
+        : rho0_(rho0), T_(T){};
 
     /**
      * The density of the atmosphere at a given altitude.

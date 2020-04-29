@@ -21,7 +21,6 @@ namespace apricot {
     const double radius_;
 
     public:
-
     /**
      * The polar radius [km].
      */
@@ -45,7 +44,7 @@ namespace apricot {
     /**
      * Construct an spherical Earth with a given radius.
      */
-    SphericalEarth(const double radius = SphericalEarth::POLAR) : radius_(radius) {};
+    SphericalEarth(const double radius = SphericalEarth::POLAR) : radius_(radius){};
 
     /**
      * Get the radius of the Earth (km) along a given vector.

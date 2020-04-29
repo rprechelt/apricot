@@ -1,7 +1,7 @@
 #pragma once
 
-#include <memory>
 #include "apricot/Flux.hpp"
+#include <memory>
 
 namespace apricot {
 
@@ -15,8 +15,7 @@ namespace apricot {
    * that is generated at each trial.
    *
    */
-  template <typename ParticleType>
-  class FixedParticleFlux  : public Flux {
+  template <typename ParticleType> class FixedParticleFlux : public Flux {
 
     public:
     /**
