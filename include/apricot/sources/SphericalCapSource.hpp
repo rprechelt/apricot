@@ -44,7 +44,7 @@ namespace apricot {
      * @param center    The central angle of the spherical cap.
      *
      */
-    SphericalCapSource(const double radius = 6456.755,
+    SphericalCapSource(const double radius = 6356.755,
                        const double theta  = M_PI / 16.,
                        const double center = (15 / 16.) * M_PI)
         : radius_(radius), theta_(theta), center_(center) {}
