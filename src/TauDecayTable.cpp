@@ -13,12 +13,12 @@ auto TauDecayTable::load_decay_table() const -> decltype(finalstates_) {
 
   // try and open the file
   // std::ifstream
-  // table{std::string(DATA_DIR)+std::string("/particles/")+filename_};
-  std::ifstream table{std::string("data/particles/tau/") + filename_};
+  std::ifstream table{std::string(DATA_DIRECTORY)+std::string("/data/particles/tau/")+filename_};
+  // std::ifstream table{std::string("data/particles/tau/") + filename_};
 
   // check that it is good to read
   if (!table.good()) {
-    std::cout << std::filesystem::current_path()
+    std::cout << std::string(DATA_DIRECTORY)
               << std::string("/data/particles/tau/") + filename_ << "\n";
     throw std::runtime_error("Unable to open tau decay file.");
   }

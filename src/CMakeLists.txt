@@ -26,6 +26,8 @@ list(APPEND LIB_SOURCES
 add_library(libApricot SHARED ${LIB_SOURCES})
 set_target_properties(libApricot PROPERTIES VERSION ${PROJECT_VERSION})
 
+add_definitions( -DDATA_DIRECTORY=\"${CMAKE_CURRENT_SOURCE_DIR}/../\" )
+
 # define the headers for this library
 target_include_directories(libApricot
   PUBLIC
