@@ -8,6 +8,9 @@ namespace apricot {
   /* Forward declarations */
   class Particle;
 
+  /* An alias for energies in log10(eV) */
+  using LogEnergy = double;
+
   /**
    * Produce a pure flux of one particle type at fixed energy.
    *
@@ -15,18 +18,18 @@ namespace apricot {
    * that is generated at each trial.
    *
    */
-  template <typename ParticleType> class FixedParticleFlux : public Flux {
+  template <typename ParticleType> class FixedParticleFlux final : public Flux {
 
     public:
     /**
      * The fixed particle energy in log10(eV).
      */
-    const double energy_;
+    const LogEnergy energy_;
 
     /**
      * Sample a fixed particle species at fixed energy.
      */
-    FixedParticleFlux(const double energy) : energy_(energy){};
+    FixedParticleFlux(const LogEnergy energy) : energy_(energy){};
 
     /**
      * Return the next particle from this flux model.
