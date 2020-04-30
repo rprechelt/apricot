@@ -29,7 +29,7 @@ Py_Propagator(py::module& m) {
            "Propagate a single particle to the detector.")
       .def("propagate",
            py::overload_cast<Source&, Flux&, const Detector&, const int>(
-               &Propagator::propagate, py::const_),
+               &Propagator::propagate, py::const_), py::call_guard<py::gil_scoped_release>(),
            "Propagate several particles to a detector.")
       .def("__repr__", [](const SimplePropagator& self) -> std::string {
         return "SimplePropagator()";
