@@ -35,9 +35,10 @@ setup(
     keywords="anita science neutrino point source antarctica cosmic ray",
     packages=["apricot"],
     python_requires=">=3.6*, <4",
-    install_requires=["configargparse", "xarray", "numpy"],
+    install_requires=["configargparse", "numpy"],
     extras_require={
         "test": ["matplotlib", "uproot", "pytest", "coverage"],
+        "root": ["uproot", "pandas"],
     },
     scripts=["bin/apricot"],
     project_urls={
