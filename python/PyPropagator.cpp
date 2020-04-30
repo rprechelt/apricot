@@ -18,10 +18,6 @@ Py_Propagator(py::module& m) {
 
   // the base FluxModel class
   py::class_<Propagator>(m, "Propagator")
-      .def("propagate",
-           py::overload_cast<Source&, Flux&, const Detector&, const int>(
-               &Propagator::propagate, py::const_),
-           "Propagate several particles to a detector.")
       .def("__repr__",
            [](const Propagator& self) -> std::string { return "Propagator()"; });
 
@@ -31,7 +27,11 @@ Py_Propagator(py::module& m) {
            py::overload_cast<Source&, Flux&, const Detector&>(&SimplePropagator::propagate,
                                                               py::const_),
            "Propagate a single particle to the detector.")
-      .def("__repr__",
-           [](const SimplePropagator& self) -> std::string { return "SimplePropagator()"; });
-
+      .def("propagate",
+           py::overload_cast<Source&, Flux&, const Detector&, const int>(
+               &Propagator::propagate, py::const_),
+           "Propagate several particles to a detector.")
+      .def("__repr__", [](const SimplePropagator& self) -> std::string {
+        return "SimplePropagator()";
+      });
 }
