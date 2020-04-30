@@ -8,11 +8,11 @@
 .PHONY: tests flake black mypy python build lib tags format
 
 # setup the cmake library
-lib:
+lib: format
 	make -C build -j4
 
 # setup and compile the C++ library
-build:
+build: format
 	mkdir -p build
 	cd build && cmake ..
 	make -C build -j4
