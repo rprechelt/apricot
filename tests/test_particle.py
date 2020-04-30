@@ -34,10 +34,15 @@ def test_pdg():
     _ = apricot.pdg.PiMinus
 
     # others
-    _ = apricot.pdg.Proton
     _ = apricot.pdg.Neutron
     _ = apricot.pdg.Photon
     _ = apricot.pdg.Apricotino
+
+    # uhecr's
+    _ = apricot.pdg.Proton
+    _ = apricot.pdg.Helium
+    _ = apricot.pdg.Nitrogen
+    _ = apricot.pdg.Iron
 
 
 def test_generations():
@@ -47,13 +52,3 @@ def test_generations():
     _ = apricot.Generation.Electron
     _ = apricot.Generation.Muon
     _ = apricot.Generation.Tau
-
-
-def test_proton():
-    """
-    Perform various tests on the Proton class.
-    """
-
-    # check that I can create perotons
-    for E in np.linspace(18.0, 21.0, 10):
-        _ = apricot.Proton(E)

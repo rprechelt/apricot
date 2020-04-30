@@ -34,7 +34,11 @@ namespace apricot {
     static constexpr ParticleID PiPlus               = 211;
     static constexpr ParticleID PiZero               = 111;
     static constexpr ParticleID PiMinus              = -211;
+    static constexpr ParticleID Helium               = 1000020040;
+    static constexpr ParticleID Nitrogen             = 1000070140;
+    static constexpr ParticleID Iron                 = 1000260300;
     static constexpr ParticleID Apricotino           = 0;
+
   } // namespace PDG
 
   /**

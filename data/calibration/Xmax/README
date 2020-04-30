@@ -1,0 +1,14 @@
+# Xmax
+
+This directory contains fits to the data in Figure 14 of
+https://iopscience.iop.org/article/10.3847/1538-4357/aabad7
+
+showing the average simulated (and measured) depth associated
+with shower max for pure Proton, Helium, Nitrogen, and Iron fluxes
+as well as the current best reconstruction of 8.5 years of
+Telescope Array data.
+
+These are currently used by the UHECR classes to calculate
+the grammage of shower max. The first column is the energy
+in log10(eV) and the second column is the grammage at Xmax
+in g/cm^2.

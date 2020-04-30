@@ -15,7 +15,7 @@ namespace apricot {
     ///
     /// \brief Construct an ElectronNeutrino from an energy in log10(eV).
     ///
-    Neutrino(const double energy) : Particle(energy){};
+    Neutrino(const LogEnergy energy) : Particle(energy){};
 
     ///
     /// \brief Evaluate the UHE neutrino cross-section (g/cm^2).
@@ -35,7 +35,7 @@ namespace apricot {
     /// Energy must be in log10(eV).
     ///
     static auto
-    from_generation(const Generation flavor, const double energy)
+    from_generation(const Generation flavor, const LogEnergy energy)
         -> std::unique_ptr<Particle>;
 
     ///
@@ -61,9 +61,9 @@ namespace apricot {
     ///
     ElectronNeutrino(const LogEnergy energy) : Neutrino(energy){};
 
-    ///
-    /// \brief Return the particle's PDG ID.
-    ///
+    /**
+       Return the particle's PDG ID.
+    */
     auto
     get_id() const -> ParticleID {
       return PDG::ElectronNeutrino;
