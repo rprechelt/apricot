@@ -8,10 +8,8 @@
 using namespace apricot;
 
 auto
-SimplePropagator::propagate(Source& source,
-                            Flux& flux,
-                            const Detector& detector) const -> InteractionTree {
-
+SimplePropagator::propagate(Source& source, Flux& flux, const Detector& detector) const
+    -> InteractionTree {
 
   // the number of particle attempts before a successful interaction
   unsigned int ntrials{0};
@@ -43,6 +41,7 @@ SimplePropagator::propagate(Source& source,
           // return the interaction that occured
           tree.emplace_back(std::make_unique<Interaction>(
               ntrials, particle, info.type_, location, direction));
+
           return tree;
 
         } // END: if (detector.detectable...
@@ -63,7 +62,8 @@ SimplePropagator::propagate(Source& source,
 
     // check that we haven't reached maximum
     if (ntrials > maxtrials_) {
-      throw std::runtime_error("SimplePropagator has reached the maximum number of trials.");
+      throw std::runtime_error(
+          "SimplePropagator has reached the maximum number of trials.");
     }
 
   } // END: while (true)

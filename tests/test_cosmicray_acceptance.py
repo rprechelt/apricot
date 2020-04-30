@@ -39,4 +39,4 @@ def test_basic_geometric_acceptance():
     propagator = apricot.SimplePropagator(earth)
 
     # and propagate a single particle
-    # interactions = propagator.propagate(source, flux, detector)
+    interactions = propagator.propagate(source, flux, detector)
