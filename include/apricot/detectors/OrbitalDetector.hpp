@@ -9,6 +9,9 @@ namespace apricot {
   /* Forward Declaration */
   class Particle;
 
+  /* An alias for an angle in RADIANS. */
+  using Angle = double;
+
   /**
    * A pure base class for particle detectors.
    */
@@ -53,11 +56,41 @@ namespace apricot {
         const CartesianCoordinate& location,
         const CartesianCoordinate& direction) const -> bool final override;
 
+    /**
+     * Return the view angle [radians] from a particle axis to the detector.
+     *
+     *  @param location    The geocentric location of the interaction [km].
+     *  @param direction   The unit-length direction vector.
+     *
+     *  @returns view      The off-axis view angle from the interaction
+     *                     to the detector.
+     */
+    auto
+    view_angle(const CartesianCoordinate& location,
+               const CartesianCoordinate& direction) const -> Angle;
+
+    /**
+     * Return the payload angle [radians] of an event.
+     *
+     * This is the angle (theta, phi) that an event is seen
+     * from the detector where `theta` is the elevation angle.
+     * theta==0 is the detector horizontal.
+     *
+     *  @param location       The geocentric location of the interaction [km].
+     *  @param direction      The unit-length direction vector.
+     *
+     *  @returns theta,   The payload view angles [radians].
+     *
+     */
+    auto
+    payload_angle(const CartesianCoordinate& location,
+                  const CartesianCoordinate& direction) const -> Angle;
+
     /*
      * Return the maximum view angle [degrees].
      */
     auto
-    get_maxview() const -> double {
+    get_maxview() const -> Angle {
       return deg_to_rad(this->maxview_);
     }
 
@@ -67,7 +100,7 @@ namespace apricot {
      * @param maxview   The new maximum view angle [degrees].
      */
     auto
-    set_maxview(const double maxview) -> void {
+    set_maxview(const Angle maxview) -> void {
       this->maxview_ = maxview;
     }
 

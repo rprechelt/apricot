@@ -32,17 +32,13 @@ void Py_Detector(py::module &m) {
   py::class_<OrbitalDetector, Detector>(m, "OrbitalDetector")
     .def(py::init<const Earth&, const CartesianCoordinate&, const double, const std::string>(),
          py::arg("earth"), py::arg("location"), py::arg("maxview"), py::arg("mode") = "both")
+    .def("view_angle", &OrbitalDetector::view_angle,
+         "Calculate the view angle from the event [radians].")
+    .def("payload_angle", &OrbitalDetector::payload_angle,
+         "Calculate the payload elevation angle of the event [radians].")
     .def("__repr__",
          [](const OrbitalDetector& self) -> std::string {
            return "OrbitalDetector()";
          });
-
-  // AntarcticDetector
-  // py::class_<AntarcticDetector, EnergyCutDetector>(m, "AntarcticDetector")
-  //   .def(py::init<const Earth&,
-  //        const double, const double, const double, const double>(),
-  //        py::arg("earth"),
-  //        py::arg("max_depth") = 3., py::arg("max_altitude") = 37.,
-  //        py::arg("min_energy") = 16., py::arg("max_energy") = 21.);
 
 }
