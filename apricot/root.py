@@ -2,6 +2,7 @@
 Read and write interactions to and from ROOT files.
 """
 from typing import List
+from types import MethodType
 import uproot
 import numpy as np
 import pandas as pd
@@ -147,5 +148,21 @@ def as_pandas(filename: str, **kwargs) -> pd.DataFrame:
         # and set some better names
         df.index.names = ["event", "interaction"]
 
-        # and now return the created dataframe
+        # add a method to get the (N, 3) locations of this dataframe
+        df.locations = MethodType(
+            lambda self: np.vstack(
+                (self["location.x"], self["location.y"], self["location.z"])
+            ).T,
+            df,
+        )
+
+        # add a method to get the (N, 3) directions of this dataframe
+        df.directions = MethodType(
+            lambda self: np.vstack(
+                (self["direction.x"], self["direction.y"], self["direction.z"])
+            ).T,
+            df,
+        )
+
+        # and return the dataframe
         return df
