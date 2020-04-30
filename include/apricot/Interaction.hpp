@@ -36,11 +36,11 @@ namespace apricot {
      * @param direction   The direction of the particle momentum.
      *
      */
-    Interaction(const int ntrials,
-                const std::unique_ptr<Particle>& particle,
+    Interaction(const std::unique_ptr<Particle>& particle,
                 const InteractionType type,
                 const CartesianCoordinate& location,
-                const Vector& direction);
+                const Vector& direction,
+                const double weight);
 
     /**
      * Construct a new Interaction.
@@ -53,19 +53,20 @@ namespace apricot {
      * @param direction   The direction of the particle momentum.
      *
      */
-    Interaction(const int ntrials,
-                const ParticleID pid,
+    Interaction(const ParticleID pid,
                 const LogEnergy energy,
                 const InteractionType type,
                 const CartesianCoordinate& location,
-                const Vector& direction);
+                const Vector& direction,
+                const double weight);
 
-    int ntrials_;                  ///< The number of trials before this interaction.
+
     ParticleID pdgid_;             ///< The PDG ID of the interacting particle.
     LogEnergy energy_;             ///< The energy of the interacting particle [log10(eV)].
     InteractionType type_;         ///< The type of the interaction that occured.
     CartesianCoordinate location_; ///< The location of the interaction [km].
     Vector direction_;             ///< The unit-length direction vector.
+    double weight_;                ///< The dot-product of the sampled trial.
 
     /**
      * A virtual default destructor.

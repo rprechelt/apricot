@@ -11,22 +11,22 @@ def test_create_access():
     """
 
     # the parameters of the event
-    ntrials = 1
     pdgid = 2212
     itype = 100
     energy = 18.5
     location = np.asarray([0, 0, 6000.0])
     direction = np.asarray([0, 1.0, 0.0])
+    weight = 0.5
 
     # create an interaction
     interaction = apricot.Interaction(
-        ntrials, pdgid, energy, itype, location, direction
+        pdgid, energy, itype, location, direction, weight
     )
 
     # and check that everything matches
-    np.testing.assert_allclose(ntrials, interaction.ntrials)
     np.testing.assert_allclose(pdgid, interaction.pdgid)
     np.testing.assert_allclose(itype, interaction.type)
     np.testing.assert_allclose(energy, interaction.energy)
     np.testing.assert_allclose(location, interaction.location)
     np.testing.assert_allclose(direction, interaction.direction)
+    np.testing.assert_allclose(weight, interaction.weight)

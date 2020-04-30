@@ -26,6 +26,9 @@ SimplePropagator::propagate(Source& source, Flux& flux, const Detector& detector
     // this is the grammage that we accumulate over this trial
     double grammage{0.};
 
+    // compute the dot product weight for this trial
+    const double weight{location.normalized().dot(direction)};
+
     // now loop through the Earth until we reach our propagation limits
     while (!detector.cut(particle, location, direction)) {
 
@@ -40,7 +43,7 @@ SimplePropagator::propagate(Source& source, Flux& flux, const Detector& detector
 
           // return the interaction that occured
           tree.emplace_back(std::make_unique<Interaction>(
-              ntrials, particle, info.type_, location, direction));
+              particle, info.type_, location, direction, weight));
 
           return tree;
 
