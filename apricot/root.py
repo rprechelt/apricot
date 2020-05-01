@@ -35,6 +35,9 @@ def to_file(filename: str, interactions: List[List[apricot.Interaction]]) -> Non
         If the output file can not be found.
     """
 
+    # remove any empty interactions
+    interactions = [i for i in interactions if i]
+
     # get the total number of events
     N = sum([len(I) for I in interactions])
 
