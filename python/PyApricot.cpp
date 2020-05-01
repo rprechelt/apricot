@@ -1,4 +1,5 @@
 #include <pybind11/pybind11.h>
+#include "apricot/Random.hpp"
 
 namespace py = pybind11;
 
@@ -39,4 +40,10 @@ PYBIND11_MODULE(_apricot, m) {
   Py_ChargedLepton(m); // ChargedLepton.hpp
   Py_NeutrinoYFactor(m); // NeutrinoYFactor.hpp
   Py_NeutrinoCrossSection(m); // NeutrinoCrossSection.hpp
+
+  // and expose a function for changing the random number seed
+  m.def("seed", &apricot::random::set_seed,
+        py::arg("seed"),
+        "Set the RNG seed.");
+
 }

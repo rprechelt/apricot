@@ -27,6 +27,17 @@ namespace apricot::random {
   inline static std::mt19937_64 generator(999983);
 
   /**
+   * Change the RNG seed.
+   *
+   * @params seed    An integer seed.
+   *
+   */
+  inline static auto
+  set_seed(const int seed) {
+    generator.seed(seed);
+  }
+
+  /**
    * A templated uniform random number generator.
    *
    * The default range is [0, 1).
