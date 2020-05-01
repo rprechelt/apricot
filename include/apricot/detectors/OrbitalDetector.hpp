@@ -37,7 +37,7 @@ namespace apricot {
                     const CartesianCoordinate& location,
                     const double maxview,
                     const std::string mode = "both")
-        : earth_(earth), payload_(location), maxview_(maxview), mode_(mode){};
+        : earth_(earth), payload_(location), maxview_(deg_to_rad(maxview)), mode_(mode){};
 
     /**
      * True if an interaction is detectable and should be saved.
@@ -91,7 +91,7 @@ namespace apricot {
      */
     auto
     get_maxview() const -> Angle {
-      return deg_to_rad(this->maxview_);
+      return this->maxview_;
     }
 
     /*
