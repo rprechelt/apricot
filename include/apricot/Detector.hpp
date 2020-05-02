@@ -30,11 +30,13 @@ namespace apricot {
     virtual auto
     cut(const std::unique_ptr<Particle>& particle,
         const CartesianCoordinate& location,
-        const CartesianCoordinate& direction) const -> bool { return false; }
+        const CartesianCoordinate& direction) const -> bool {
+      return false;
+    }
 
-    ///
-    /// \brief A virtual destructor.
-    ///
+    /**
+     * A virtual destructor.
+     */
     virtual ~Detector() = default;
 
   }; // END: Detector

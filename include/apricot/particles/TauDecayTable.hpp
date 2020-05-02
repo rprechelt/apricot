@@ -49,9 +49,13 @@ namespace apricot {
      *
      * @param state   The energy transferred to each decay component.
      */
-    TauDecayProducts(const std::array<double, 6> &state)
-        : nu_e(state[2]), nu_muon(state[1]), nu_tau(state[0]), hadronic(state[3]),
-          electron(state[5]), muon(state[4]){};
+    TauDecayProducts(const std::array<double, 6>& state) :
+        nu_e(state[2]),
+        nu_muon(state[1]),
+        nu_tau(state[0]),
+        hadronic(state[3]),
+        electron(state[5]),
+        muon(state[4]){};
 
     /**
      *  Return a Python-format string representation.
@@ -62,8 +66,9 @@ namespace apricot {
     to_string() const -> std::string {
       return "TauDecayProducts(nu_e=" + std::to_string(nu_e) +
              ", nu_mu=" + std::to_string(nu_muon) + ", nu_tau=" + std::to_string(nu_tau) +
-             ", hadronic=" + std::to_string(hadronic) + ", electron=" + std::to_string(electron) +
-             ", muon=" + std::to_string(muon) + ")";
+             ", hadronic=" + std::to_string(hadronic) +
+             ", electron=" + std::to_string(electron) + ", muon=" + std::to_string(muon) +
+             ")";
     }
   };
 
@@ -82,8 +87,10 @@ namespace apricot {
   class TauDecayTable final {
 
     private:
-    static constexpr size_t nstates_{1000}; ///< The number of final states in the decay table
-    static constexpr size_t nparticles_{6}; ///< The number of particles in each energy state
+    static constexpr size_t nstates_{
+        1000}; ///< The number of final states in the decay table
+    static constexpr size_t nparticles_{
+        6}; ///< The number of particles in each energy state
     const std::string filename_{"tau_decay_tauola.dat"};
     const std::array<double, nstates_ * nparticles_>
         finalstates_; ///< The array containing all the finalstates

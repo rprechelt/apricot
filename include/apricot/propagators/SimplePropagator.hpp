@@ -24,7 +24,6 @@ namespace apricot {
   class SimplePropagator final : public Propagator {
 
     public:
-
     /**
      * Construct a SimplePropagator.
      */
@@ -40,9 +39,8 @@ namespace apricot {
      *
      */
     auto
-    propagate(Source& source,
-              Flux& flux,
-              const Detector& detector) const -> InteractionTree final override;
+    propagate(Source& source, Flux& flux, const Detector& detector) const
+        -> InteractionTree final override;
 
     /**
      * A default virtual destructor.

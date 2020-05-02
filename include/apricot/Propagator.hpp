@@ -29,15 +29,14 @@ namespace apricot {
   class Propagator {
 
     public:
-
-    const Earth& earth_;        ///< The Earth model we use for propagation.
-    int maxtrials_{1'000'000}; ///< The maximum number of trials without success before halting.
-
+    const Earth& earth_; ///< The Earth model we use for propagation.
+    int maxtrials_{
+        1'000'000}; ///< The maximum number of trials without success before halting.
 
     /**
      * Create a new Propagator for a given Earth model.
      */
-    Propagator(const Earth& earth) : earth_(earth) {};
+    Propagator(const Earth& earth) : earth_(earth){};
 
     /**
      * Propagate several particles from a Source to a Detector.
@@ -49,10 +48,8 @@ namespace apricot {
      *
      */
     auto
-    propagate(Source& source,
-              Flux& flux,
-              const Detector& detector,
-              const int N) const -> Events;
+    propagate(Source& source, Flux& flux, const Detector& detector, const int N) const
+        -> Events;
 
     /**
      * Propagate a single particle from a Source to a Detector.
@@ -64,9 +61,8 @@ namespace apricot {
      *
      */
     virtual auto
-    propagate(Source& source,
-              Flux& flux,
-              const Detector& detector) const -> InteractionTree = 0;
+    propagate(Source& source, Flux& flux, const Detector& detector) const
+        -> InteractionTree = 0;
 
     /**
      * A default virtual destructor.
@@ -82,8 +78,8 @@ namespace apricot {
      *
      */
     virtual auto
-    step_size(const ParticlePtr& particle,
-              const CartesianCoordinate& location) const -> double;
+    step_size(const ParticlePtr& particle, const CartesianCoordinate& location) const
+        -> double;
 
     protected:
     /**

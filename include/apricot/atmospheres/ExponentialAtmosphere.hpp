@@ -49,8 +49,9 @@ namespace apricot {
      * @param rho0    The sea level density in [g/cm^3].
      * @param T       The reference temperature [K]
      */
-    ExponentialAtmosphere(const double rho0 = 1.225e-3, const double T = 273)
-        : rho0_(rho0), T_(T){};
+    ExponentialAtmosphere(const double rho0 = 1.225e-3, const double T = 273) :
+        rho0_(rho0),
+        T_(T){};
 
     /**
      * The density of the atmosphere at a given altitude.

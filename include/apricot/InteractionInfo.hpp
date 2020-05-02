@@ -58,8 +58,10 @@ namespace apricot {
     ///
     InteractionInfo(const InteractionType& type,
                     const double grammage,
-                    const double lifetime = -1.)
-        : type_(type), grammage_(grammage), lifetime_(lifetime){};
+                    const double lifetime = -1.) :
+        type_(type),
+        grammage_(grammage),
+        lifetime_(lifetime){};
 
     /**
      * An instance indicating *no* future interaction.

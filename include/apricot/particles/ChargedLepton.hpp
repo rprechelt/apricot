@@ -1,8 +1,8 @@
 #pragma once
 
 #include "apricot/Apricot.hpp"
-#include "apricot/Particle.hpp"
 #include "apricot/InteractionInfo.hpp"
+#include "apricot/Particle.hpp"
 #include "apricot/particles/Decayable.hpp"
 #include "apricot/particles/TauDecayTable.hpp"
 #include <cmath>
@@ -30,8 +30,9 @@ namespace apricot {
      *
      * @param energy    The energy in log10(eV).
      */
-    ChargedLepton(const LogEnergy energy, const double mass)
-        : Particle(energy), mass_(log10(mass)){};
+    ChargedLepton(const LogEnergy energy, const double mass) :
+        Particle(energy),
+        mass_(log10(mass)){};
 
     /**
      * Calculate the Lorentz (gamam) factor of this particle.

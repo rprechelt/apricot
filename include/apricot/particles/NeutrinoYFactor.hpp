@@ -20,6 +20,6 @@ namespace apricot {
   /// @param model     The neutrino y-factor model to use.
   ///
   auto
-  y_factor(const LogEnergy energy, const NeutrinoYFactorModel &model) -> double;
+  y_factor(const LogEnergy energy, const NeutrinoYFactorModel& model) -> double;
 
 } // namespace apricot

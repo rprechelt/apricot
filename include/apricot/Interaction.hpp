@@ -60,7 +60,6 @@ namespace apricot {
                 const Vector& direction,
                 const double weight);
 
-
     ParticleID pdgid_;             ///< The PDG ID of the interacting particle.
     LogEnergy energy_;             ///< The energy of the interacting particle [log10(eV)].
     InteractionType type_;         ///< The type of the interaction that occured.

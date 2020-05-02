@@ -20,9 +20,11 @@ namespace apricot {
                       const double max_depth    = 3.,
                       const double max_altitude = 37.,
                       const double min_energy   = 16.,
-                      const double max_energy   = 21.)
-        : EnergyCutDetector(min_energy, max_energy), earth_(earth), max_depth_(max_depth),
-          max_altitude_(max_altitude){};
+                      const double max_energy   = 21.) :
+        EnergyCutDetector(min_energy, max_energy),
+        earth_(earth),
+        max_depth_(max_depth),
+        max_altitude_(max_altitude){};
 
     ///
     /// \brief Return True if a particle should be saved.

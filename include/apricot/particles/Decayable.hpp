@@ -1,8 +1,8 @@
 
 #pragma once
 
-#include "apricot/Random.hpp"
 #include "apricot/Constants.hpp"
+#include "apricot/Random.hpp"
 
 namespace apricot {
 

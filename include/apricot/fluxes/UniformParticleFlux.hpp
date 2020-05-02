@@ -35,8 +35,9 @@ namespace apricot {
     /**
      * Sample a fixed particle species at fixed energy.
      */
-    UniformParticleFlux(const LogEnergy min_energy, const LogEnergy max_energy)
-        : min_energy_(min_energy), max_energy_(max_energy){};
+    UniformParticleFlux(const LogEnergy min_energy, const LogEnergy max_energy) :
+        min_energy_(min_energy),
+        max_energy_(max_energy){};
 
     /**
      * Return the next particle from this flux model.

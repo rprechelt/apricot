@@ -21,8 +21,9 @@ namespace apricot {
     /**
      * Construct a detector to accept energies between min_energy and max_energy.
      */
-    EnergyCutDetector(const double min_energy, const double max_energy)
-        : min_energy_(min_energy), max_energy_(max_energy){};
+    EnergyCutDetector(const double min_energy, const double max_energy) :
+        min_energy_(min_energy),
+        max_energy_(max_energy){};
 
     /**
      * Return True if a particle should be saved.

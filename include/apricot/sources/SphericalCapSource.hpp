@@ -46,8 +46,10 @@ namespace apricot {
      */
     SphericalCapSource(const double radius = 6356.755,
                        const double theta  = M_PI / 16.,
-                       const double center = (15 / 16.) * M_PI)
-        : radius_(radius), theta_(theta), center_(center) {}
+                       const double center = (15 / 16.) * M_PI) :
+        radius_(radius),
+        theta_(theta),
+        center_(center) {}
 
     /**
      * Choose a random point on the surface of the cap.
