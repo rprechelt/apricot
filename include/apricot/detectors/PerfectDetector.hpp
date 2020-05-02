@@ -22,9 +22,7 @@ namespace apricot {
     detectable(const InteractionInfo& info,
                const std::unique_ptr<Particle>& particle,
                const CartesianCoordinate& location,
-               const CartesianCoordinate& direction) const -> bool final override {
-      return true;
-    };
+               const CartesianCoordinate& direction) const -> bool final override;
 
     /**
      * True if an interaction should be cut during propagation.
@@ -32,9 +30,7 @@ namespace apricot {
     auto
     cut(const std::unique_ptr<Particle>& particle,
         const CartesianCoordinate& location,
-        const CartesianCoordinate& direction) const -> bool final override {
-      return false;
-    }
+        const CartesianCoordinate& direction) const -> bool final override;
 
     /**
      * A no-op destructor.

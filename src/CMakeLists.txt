@@ -10,6 +10,7 @@ list(APPEND LIB_SOURCES
   "Propagator.cpp"
   "Interaction.cpp"
   "TauDecayTable.cpp"
+  "PerfectDetector.cpp"
   "NeutrinoYFactor.cpp"
   "SphericalEarth.cpp"
   "OrbitalDetector.cpp"
