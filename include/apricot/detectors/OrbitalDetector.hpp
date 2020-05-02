@@ -21,7 +21,7 @@ namespace apricot {
     const CartesianCoordinate& payload_; ///< The current location of the detector [km].
     double maxview_;                     ///< The maximum view angle [radians].
     double maxalt_{100. + 1e-3};         ///< The maximum altitude before we cut.
-    const std::string mode_;             ///< The detection mode (direct, reflected, or both)
+    const std::string mode_; ///< The detection mode (direct, reflected, or both)
 
     public:
     /**
@@ -36,8 +36,11 @@ namespace apricot {
     OrbitalDetector(const Earth& earth,
                     const CartesianCoordinate& location,
                     const double maxview,
-                    const std::string mode = "both")
-        : earth_(earth), payload_(location), maxview_(deg_to_rad(maxview)), mode_(mode){};
+                    const std::string mode = "both") :
+        earth_(earth),
+        payload_(location),
+        maxview_(deg_to_rad(maxview)),
+        mode_(mode){};
 
     /**
      * True if an interaction is detectable and should be saved.

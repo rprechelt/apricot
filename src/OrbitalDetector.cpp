@@ -53,14 +53,23 @@ OrbitalDetector::cut(const std::unique_ptr<Particle>& particle,
                      const CartesianCoordinate& location,
                      const CartesianCoordinate& direction) const -> bool {
 
+  // get the current radius of the particle
+  const auto radius{location.norm()};
+
+  // and the radius of the surface of the Earth
+  const auto surface{earth_.radius(location)};
+
   // if the particle started greater than our max altitude, then cut
-  if (location.norm() > (earth_.radius(location) + this->maxalt_)) return true;
+  if (radius > (surface + this->maxalt_)) return true;
+
+  // if the particle reaches the ground, then also cut
+  if (radius < surface) return true;
 
   // get the view angle from the interaction to the payload
-  const auto viewangle{view_angle(location, direction)};
+  // const auto viewangle{view_angle(location, direction)};
 
   // if cos(view angle) is less than zero, it's pointing away from ANITA
-  if (cos(viewangle) < 0) return true; // then cut
+  // if (cos(viewangle) < 0) return true; // then cut
   
   // otherwise, don't cut
   return false;
