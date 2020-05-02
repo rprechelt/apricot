@@ -16,12 +16,15 @@ def test_FixedFlux():
     """
 
     # the various fixed fluxes that we test
-    ftypes = [apricot.FixedProtonFlux, apricot.FixedNitrogenFlux,
-             apricot.FixedHeliumFlux, apricot.FixedIronFlux]
+    ftypes = [
+        apricot.FixedProtonFlux,
+        apricot.FixedNitrogenFlux,
+        apricot.FixedHeliumFlux,
+        apricot.FixedIronFlux,
+    ]
 
     # the associated particle types
-    particles = [apricot.Proton, apricot.Nitrogen,
-                 apricot.Helium, apricot.Iron]
+    particles = [apricot.Proton, apricot.Nitrogen, apricot.Helium, apricot.Iron]
 
     # check FixedProtonFlux - try a few times
     # to capture any randomness in the flux sampler.
@@ -45,12 +48,15 @@ def test_UniformFlux():
     """
 
     # the various fixed fluxes that we test
-    ftypes = [apricot.UniformProtonFlux, apricot.UniformNitrogenFlux,
-             apricot.UniformHeliumFlux, apricot.UniformIronFlux]
+    ftypes = [
+        apricot.UniformProtonFlux,
+        apricot.UniformNitrogenFlux,
+        apricot.UniformHeliumFlux,
+        apricot.UniformIronFlux,
+    ]
 
     # the associated particle types
-    particles = [apricot.Proton, apricot.Nitrogen,
-                 apricot.Helium, apricot.Iron]
+    particles = [apricot.Proton, apricot.Nitrogen, apricot.Helium, apricot.Iron]
 
     # check UniformProtonFlux - try a few times
     # to capture any randomness in the flux sampler.

@@ -19,9 +19,7 @@ def test_create_access():
     weight = 0.5
 
     # create an interaction
-    interaction = apricot.Interaction(
-        pdgid, energy, itype, location, direction, weight
-    )
+    interaction = apricot.Interaction(pdgid, energy, itype, location, direction, weight)
 
     # and check that everything matches
     np.testing.assert_allclose(pdgid, interaction.pdgid)

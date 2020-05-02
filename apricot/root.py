@@ -1,11 +1,13 @@
 """
 Read and write interactions to and from ROOT files.
 """
-from typing import List
 from types import MethodType
-import uproot
+from typing import List
+
 import numpy as np
 import pandas as pd
+import uproot
+
 import apricot
 
 
