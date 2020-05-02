@@ -1,4 +1,4 @@
-# Antarctic Particle Propagator (APRICOT)
+# Antarctic Propagator for Neutrino and Cosmic Ray Observatories (APRICOT)
 
 ![GitHub](https://img.shields.io/github/license/rprechelt/apricot?logoColor=brightgreen)
 [![C++: 17](https://img.shields.io/badge/C++-17-blue.svg)](https://en.cppreference.com/w/cpp/17)
@@ -6,10 +6,10 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 
-
-APRICOT (**A**ntarctic **P**a**r**t**ic**le Pr**o**paga**t**or) is a general
-purpose framework for propagating *ultra-high energy particles* (typically greater
-than 1 EeV) through the *Earth* (in 3D) to a user-specified *detection* volume.
+APRICOT (**A**ntarctic **P**ropagator for Neut**ri**no and **C**osmic Ray
+**O**bserva**t**ories) is a general purpose framework for propagating
+*ultra-high energy particles* (typically greater than 1 EeV) through the *Earth*
+(in 3D) to a user-specified *detection* volume.
 
 While initially constructed to simulate neutrino propagation in Antarctica for
 the **AN**tarctic **I**mpulsive **T**ransient **A**ntenna (ANITA), `apricot` has
