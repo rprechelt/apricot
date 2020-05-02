@@ -27,10 +27,12 @@ def test_plot_shower_max():
     """
 
     # the energies we evaluate it at
-    energies = np.linspace(18., 20., 100)
+    energies = np.linspace(18.0, 20.0, 100)
 
     # the directory containing our calibration data
-    calib_dir = op.abspath(op.join(op.dirname(__file__), op.pardir, "data", "calibration", "Xmax"))
+    calib_dir = op.abspath(
+        op.join(op.dirname(__file__), op.pardir, "data", "calibration", "Xmax")
+    )
 
     # create the plot
     fig, ax = plt.subplots()
@@ -40,7 +42,9 @@ def test_plot_shower_max():
     ax.plot(energies, apricot.Helium.get_Xmax(energies), label="Helium", c="m")
     ax.plot(energies, apricot.Nitrogen.get_Xmax(energies), label="Nitrogen", c="orange")
     ax.plot(energies, apricot.Iron.get_Xmax(energies), label="Iron", c="blue")
-    ax.plot(energies, apricot.MixedUHECR.get_Xmax(energies), label="TA (Measured)", c="k")
+    ax.plot(
+        energies, apricot.MixedUHECR.get_Xmax(energies), label="TA (Measured)", c="k"
+    )
 
     # and plot it against the data that it was fit to
     data = np.loadtxt(f"{calib_dir}/telescope_array_xmax.dat")
