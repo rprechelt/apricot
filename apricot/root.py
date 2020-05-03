@@ -49,6 +49,7 @@ def to_file(filename: str, interactions: List[List[apricot.Interaction]]) -> Non
     energy = np.zeros(N, dtype=np.float64)
     itype = np.zeros(N, dtype=np.int32)
     weight = np.zeros(N, dtype=np.float64)
+    altitude = np.zeros(N, dtype=np.float64)
 
     # arrays to store the locations and directions
     location = np.zeros((N, 3), dtype=np.float64)
@@ -71,6 +72,7 @@ def to_file(filename: str, interactions: List[List[apricot.Interaction]]) -> Non
             location[i, :] = event.location
             direction[i, :] = event.direction
             weight[i] = event.weight
+            altitude[i] = event.altitude
 
             # and increment our array index
             i += 1
@@ -91,6 +93,7 @@ def to_file(filename: str, interactions: List[List[apricot.Interaction]]) -> Non
             "direction.y": np.float64,
             "direction.z": np.float64,
             "weight": np.float64,
+            "altitude": np.float64,
         }
 
         # create the tree
@@ -110,6 +113,7 @@ def to_file(filename: str, interactions: List[List[apricot.Interaction]]) -> Non
                 "direction.y": direction[:, 1],
                 "direction.z": direction[:, 2],
                 "weight": weight,
+                "altitude": altitude,
             }
         )
 

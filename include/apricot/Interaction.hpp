@@ -40,7 +40,8 @@ namespace apricot {
                 const InteractionType type,
                 const CartesianCoordinate& location,
                 const Vector& direction,
-                const double weight);
+                const double weight,
+                const double altitude);
 
     /**
      * Construct a new Interaction.
@@ -58,7 +59,8 @@ namespace apricot {
                 const InteractionType type,
                 const CartesianCoordinate& location,
                 const Vector& direction,
-                const double weight);
+                const double weight,
+                const double altitude);
 
     ParticleID pdgid_;             ///< The PDG ID of the interacting particle.
     LogEnergy energy_;             ///< The energy of the interacting particle [log10(eV)].
@@ -66,6 +68,7 @@ namespace apricot {
     CartesianCoordinate location_; ///< The location of the interaction [km].
     Vector direction_;             ///< The unit-length direction vector.
     double weight_;                ///< The dot-product of the sampled trial.
+    double altitude_;              ///< The altitude of the interaction [km].
 
     /**
      * A virtual default destructor.

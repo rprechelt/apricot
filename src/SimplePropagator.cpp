@@ -35,9 +35,12 @@ SimplePropagator::propagate(Source& source, Flux& flux, const Detector& detector
       // if the particle is detectable, return the interaction
       if (detector.detectable(info, particle, location, direction)) {
 
+        // compute the altitude of the interaction
+        const auto altitude{location.norm() - earth_.radius(location)};
+
         // return the interaction that occured
         tree.emplace_back(std::make_unique<Interaction>(
-            particle, info.type_, location, direction, weight));
+            particle, info.type_, location, direction, weight, altitude));
 
         return tree;
 

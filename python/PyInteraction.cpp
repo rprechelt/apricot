@@ -17,11 +17,13 @@ Py_Interaction(py::module& m) {
                     const InteractionType,
                     const CartesianCoordinate&,
                     const Vector&,
+                    const double,
                     const double>())
       .def_readonly("pdgid", &Interaction::pdgid_)
       .def_readonly("energy", &Interaction::energy_)
       .def_readonly("type", &Interaction::type_)
       .def_readonly("location", &Interaction::location_)
       .def_readonly("direction", &Interaction::direction_)
-      .def_readonly("weight", &Interaction::weight_);
+      .def_readonly("weight", &Interaction::weight_)
+      .def_readonly("altitude", &Interaction::altitude_);
 }
