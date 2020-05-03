@@ -1,8 +1,13 @@
 #pragma once
 
 #include "apricot/Coordinates.hpp"
+#include "apricot/Atmosphere.hpp"
+#include <memory>
 
 namespace apricot {
+
+  /* Forward Declarations */
+  class Atmosphere;
 
   /**
    * The base class that handles all Earth models.
@@ -13,6 +18,8 @@ namespace apricot {
    *
    */
   class Earth {
+
+    std::shared_ptr<Atmosphere> atmosphere_{nullptr}; ///< The atmosphere model to use.
 
     public:
     /**
@@ -34,6 +41,16 @@ namespace apricot {
      */
     auto
     density(const CartesianCoordinate& location) const -> double;
+
+    /**
+     * Add an atmosphere model to this Earth model.
+     *
+     * This replaces any existing atmosphere model.
+     *
+     * @param atmosphere    The atmosphere model to add.
+     */
+    auto
+    add(const std::shared_ptr<Atmosphere>& atmosphere) -> void;
 
     /**
      * Virtual destructor.

@@ -62,3 +62,39 @@ def test_plot_exponential_atmosphere():
 
     # and save it
     fig.savefig(f"{os.path.dirname(__file__)}/figures/exponential_atmosphere.pdf")
+
+def test_add_earth():
+    """
+    Test that I can add atmosphere models to Earth models.
+    """
+
+    # create an Earth model
+    earth = apricot.SphericalEarth()
+
+    # construct an atmosphere
+    atmosphere = apricot.ExponentialAtmosphere()
+
+    # and add an ExponentialAtmosphere
+    earth.add(atmosphere)
+
+    # get the radius of the current Earth model at the pole
+    Re = earth.radius(np.asarray([0, 0, -1.0]))
+
+    # the altitudes at which we evaluate our model [km]
+    altitudes = np.linspace(0, 5., 100)
+
+    # make sure that the density above the surface is non-zero
+    radii = Re + altitudes
+
+    # build the locations that we evaluate the density at
+    locations = np.zeros((altitudes.shape[0], 3))
+    locations[:, 2] = radii
+
+    # get the density at each of these locations using the Earth
+    earth_density = earth.density(locations)
+
+    # get the density at each of these locations using the atmosphere
+    atmosphere_density = atmosphere.density(altitudes)
+
+    # check that they agree
+    np.testing.assert_allclose(earth_density, atmosphere_density)

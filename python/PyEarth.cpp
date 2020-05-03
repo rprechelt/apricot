@@ -1,5 +1,6 @@
-#include "apricot/Coordinates.hpp"
 #include "apricot/Earth.hpp"
+#include "apricot/Atmosphere.hpp"
+#include "apricot/Coordinates.hpp"
 #include "apricot/earth/SphericalEarth.hpp"
 #include <pybind11/eigen.h> // add support for Eigen
 #include <pybind11/numpy.h> // add support for numpy
@@ -30,7 +31,10 @@ Py_Earth(py::module& m) {
             // and return thee output vector
             return out;
           },
-          "The density of the Earth at several locations [km].");
+          "The density of the Earth at several locations [km].")
+    .def("add", py::overload_cast<const std::shared_ptr<Atmosphere>&>(&Earth::add),
+         py::arg("atmosphere"),
+         "Add an atmosphere model to this Earth model.");
 
   // SphericalEarth
   py::class_<SphericalEarth, Earth>(m, "SphericalEarth")
