@@ -18,13 +18,21 @@
 namespace apricot::random {
 
   /**
+   * A random device.
+   *
+   * This should ONLY be used to seed the Mersenne Twister.
+   * Do not use this random device directly.
+   */
+  inline static std::random_device rd;
+
+  /**
    * A 64-bit Mersenne twister RNG.
    *
    * Note: this is *significantly* faster than the standard
    * mt19937 generator with random performance that is almost
    * as good (there's still plenty of entropy for our application).
    */
-  inline static std::mt19937_64 generator(999983);
+  inline static std::mt19937_64 generator(rd());
 
   /**
    * Change the RNG seed.
