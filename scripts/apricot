@@ -1,0 +1,125 @@
+#!/usr/bin/env python3
+"""
+Propagate particles with APRICOT to Antarctica (and beyond!).
+
+The built-in propagation scripts are:
+
+    cosmicray        Propagate UHECR's to ANITA.
+
+"""
+
+if __name__ == "__main__":
+
+    import random
+    import argparse
+    import apricot
+    import apricot.anita.cosmicray
+
+    # create an argument parser
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        usage="apricot [command] [-h]",
+    )
+
+    # add the various subcommands
+    subparsers = parser.add_subparsers(
+        title="Propagators", required=True, dest="subcommand"
+    )
+
+    # cosmic ray simulation
+    cosmicray = subparsers.add_parser(
+        "cosmicray", help="Propagate cosmic rays for ANITA."
+    )
+    cosmicray.add_argument(
+        "--ntrials",
+        type=int,
+        required=True,
+        help="The number of particle trials to generate.",
+    )
+    cosmicray.add_argument(
+        "--filename",
+        type=str,
+        required=True,
+        help="The filename to save interactions into.",
+    )
+    cosmicray.add_argument(
+        "--particle",
+        type=str,
+        default="proton",
+        help="The UHECR particle species to generate.",
+    )
+    cosmicray.add_argument(
+        "--min-energy",
+        type=float,
+        default=18.0,
+        help="The maximum particle energy to generate [log10(eV)].",
+    )
+    cosmicray.add_argument(
+        "--max-energy",
+        type=float,
+        default=21.0,
+        help="The maximum particle energy to generate [log10(eV)].",
+    )
+    cosmicray.add_argument(
+        "--fixed-energy",
+        type=float,
+        default=None,
+        help="If provided, use this as a fixed generation energy [log10(eV)].",
+    )
+    cosmicray.add_argument(
+        "--altitude",
+        type=float,
+        default=37.5,
+        help="The altitude of the payload [km].",
+    )
+    cosmicray.add_argument(
+        "--earth-model",
+        type=str,
+        default="spherical",
+        choices=["spherical"],
+        help="The earth model to use for propagation.",
+    )
+    cosmicray.add_argument(
+        "--earth-radius",
+        type=str,
+        default="polar_radius",
+        choices=[
+            "polar_radius",
+            "polar_curvature",
+            "equatorial_radius",
+            "volumetric_radius",
+        ],
+        help="The radius to use for the spherical earth model.",
+    )
+    cosmicray.add_argument(
+        "--maxview",
+        type=float,
+        default=2.0,
+        help="The maximum detectable view angle [degrees].",
+    )
+    cosmicray.add_argument(
+        "--mode",
+        type=str,
+        choices=["direct", "reflected", "both"],
+        default="direct",
+        help="The radio detection mode.",
+    )
+    cosmicray.add_argument(
+        "--seed", default=None, help="An integer RNG seed"
+    )
+
+    # and the function
+    cosmicray.set_defaults(func=apricot.anita.cosmicray.propagate)
+
+    # and parse the arguments
+    args = parser.parse_args()
+
+    # if reproducible was not set, then set the desired seed
+    if args.seed is not None:
+        apricot.seed(int(args.seed))
+
+    # and pass it on the appropriate function
+    args.func(**vars(args))
+
+    # importour required modules
