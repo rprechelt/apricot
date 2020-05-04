@@ -13,7 +13,12 @@ namespace apricot {
   using Angle = double;
 
   /**
-   * A pure base class for particle detectors.
+   * A radio or optical detector at altitude above the Earth.
+   *
+   * This class models a balloon-borne or space detector above. Given the
+   * payload location, this detector triggers on interactions that are visible
+   * within a cone of emission centered at the interaction location and aligned
+   * with the particle propagation axis.
    */
   class OrbitalDetector final : public Detector {
 
