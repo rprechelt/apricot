@@ -1,5 +1,5 @@
 #include "apricot/sources/SphericalCapSource.hpp"
-#include "Geometry.hpp"
+#include "apricot/Geometry.hpp"
 #include <cmath>
 
 using namespace apricot;
