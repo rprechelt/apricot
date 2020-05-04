@@ -3,6 +3,7 @@
 #include "apricot/Coordinates.hpp"
 #include "apricot/Atmosphere.hpp"
 #include <memory>
+#include <optional>
 
 namespace apricot {
 
@@ -41,6 +42,23 @@ namespace apricot {
      */
     auto
     density(const CartesianCoordinate& location) const -> double;
+
+    /**
+     * Find the intersection of a ray with the surface.
+     *
+     * Given a starting location, and a *unit-length* direction
+     * vector, find the intersection of this ray with the surface.
+     * If no intersection is found, this returns std::nullopt.
+     *
+     * @param location    The starting location of the ray.
+     * @param direction   The unit-length ray direction vector.
+     *
+     * @returns surface   The location of the surface intersiction or nullopt.
+     *
+     */
+    virtual auto
+    find_surface(const CartesianCoordinate& location,
+                 const Vector& direction) const -> std::optional<CartesianCoordinate> = 0;
 
     /**
      * Add an atmosphere model to this Earth model.

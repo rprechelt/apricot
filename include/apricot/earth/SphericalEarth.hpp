@@ -55,6 +55,28 @@ namespace apricot {
     radius(const CartesianCoordinate&) const -> double final override;
 
     /**
+     * Find the intersection of a ray with the surface.
+     *
+     * Given a starting location, and a *unit-length* direction
+     * vector, find the intersection of this ray with the surface.
+     * If no intersection is found, this returns std::nullopt.
+     *
+     * This uses an analytical solution to step to the surface
+     * intersection point in one step.
+     *
+     * Note: this currently ignores the thickness of the ice.
+     *
+     * @param location    The starting location of the ray.
+     * @param direction   The unit-length ray direction vector.
+     *
+     * @returns surface   The location of the surface intersiction or nullopt.
+     *
+     */
+    auto
+    find_surface(const CartesianCoordinate& location, const Vector& direction) const
+        -> std::optional<CartesianCoordinate>;
+
+    /**
      * Get the area of a spherical cap.
      *
      * @param center    The center of the spherical cap.
