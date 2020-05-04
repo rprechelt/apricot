@@ -40,7 +40,7 @@ setup(
         "test": ["matplotlib", "uproot", "pytest", "coverage"],
         "root": ["uproot", "pandas"],
     },
-    scripts=["bin/apricot"],
+    scripts=["scripts/apricot"],
     project_urls={
         "NuTauSim": "https://github.com/harmscho/NuTauSim",
         "ANITA Github": "https://github.com/anitaNeutrino",
