@@ -1,7 +1,7 @@
 #pragma once
 
-#include "apricot/Coordinates.hpp"
 #include "apricot/Atmosphere.hpp"
+#include "apricot/Coordinates.hpp"
 #include <memory>
 #include <optional>
 
@@ -57,8 +57,8 @@ namespace apricot {
      *
      */
     virtual auto
-    find_surface(const CartesianCoordinate& location,
-                 const Vector& direction) const -> std::optional<CartesianCoordinate> = 0;
+    find_surface(const CartesianCoordinate& location, const Vector& direction) const
+        -> std::optional<CartesianCoordinate> = 0;
 
     /**
      * Add an atmosphere model to this Earth model.

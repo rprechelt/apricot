@@ -1,6 +1,5 @@
 #pragma once
 
-
 namespace apricot {
 
   /**
@@ -14,10 +13,10 @@ namespace apricot {
    *
    * @returns sgn  The sign of the argument
    */
-  template <typename T> auto
+  template <typename T>
+  auto
   sgn(const T val) -> int {
     return (T(0) < val) - (val < T(0));
   }
 
-
-}
+} // namespace apricot
