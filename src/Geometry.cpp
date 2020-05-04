@@ -1,6 +1,7 @@
 #include "apricot/Geometry.hpp"
 #include "apricot/earth/SphericalEarth.hpp"
 #include "apricot/Random.hpp"
+#include "Utils.hpp"
 #include <stdexcept>
 
 using namespace apricot;
@@ -42,29 +43,58 @@ apricot::random_cap_point(const double mintheta, const double maxtheta, const do
 
 auto
 apricot::propagate_to_sphere(const CartesianCoordinate& start, const CartesianCoordinate& direction,
-                             const double radius) -> CartesianCoordinate {
+                             const double radius) -> std::optional<CartesianCoordinate> {
   // we assume that the surface intersection point can be parametrized as
   // surface = start + t*direction
 
   // this computes how far start is from the middle of the chord formed by
   // start and direction
-  const auto D{direction};
-  const auto LD(start.dot(direction));
-  const double L{start.norm()};
+  // const auto D{direction};
+  // const auto LD(start.dot(direction));
+  // const double L{start.norm()};
 
-  // and compute how much further we must travel along the chord.
-  const auto t{sqrt(LD * LD - L * L + radius * radius)};
+  // // and compute how much further we must travel along the chord.
+  // const auto t{sqrt(LD * LD - L * L + radius * radius)};
 
-  // and finally compute the intersection
-  const auto surface{start + (t - LD) * D};
+  // // and finally compute the intersection
+  // const auto surface{start + (t - LD) * D};
 
-  // get the magnitude of the surface vector
-  const auto magnitude{surface.norm()};
+  // // get the magnitude of the surface vector
+  // const auto magnitude{surface.norm()};
+  //
+  // # compute the distance from the origin to the perpendicular
+  // radial line at the location of closest approach
+  const auto LD{start.dot(direction)};
+
+  // now compute the squared distance of closest approach
+  const auto D2{start.dot(start) - LD*LD};
+
+  // if this is greater than the squared radius, then we don't
+  // intersect the sphere. So, return a none value
+  if (D2 > radius*radius) return std::nullopt;
+
+  // now compute the offset from this central intersect point
+  const auto thc{sqrt(radius*radius - D2)};
+
+  // due to numerical precision, we generally always have
+  // two solutions to the intersection: -LD +/- thc
+
+  // when we are INSIDE the sphere, we want the far/second solution
+  // as this is the solution *along* the ray path
+  // if we are OUTSIDE the sphere, we want the closest/first solution
+  // as that is the location of the first intersection with the sphere
+
+  // compute the parameter for the appropriate intersection
+  // using the starting radius to check for the sign
+  const auto t{-LD - sgn(start.norm() - radius)*thc};
+
+  // now compute the intersection with the surface
+  const auto surface{start + t*direction};
 
   // and check that we are indeed at the surface.
-  if ((magnitude < (radius - 1e-3)) || (magnitude > (radius + 1e-3))) {
-    throw std::runtime_error("propagate_to_sphere FAILED");
-  }
+  // if ((magnitude < (radius - 1e-3)) || (magnitude > (radius + 1e-3))) {
+  //   throw std::runtime_error("propagate_to_sphere FAILED");
+  // }
 
   // and return the surface point
   return surface;

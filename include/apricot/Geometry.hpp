@@ -1,6 +1,7 @@
 #pragma once
 
 #include "apricot/Coordinates.hpp"
+#include <optional>
 
 namespace apricot {
 
@@ -36,12 +37,12 @@ namespace apricot {
   /**
    * Propagate a ray to a sphere with known radius.
    *
-   * Given a ray *inside* a sphere located at `start`, and a normalized
-   * direction vector `direction`, return the intersection of that ray
-   * with the sphere of radius `radius` assuming that the coordinate system
+   * Given a ray *inside* or *outside* a sphere located at `start`, and a
+   * normalized direction vector `direction`, return the intersection of that
+   * ray with the sphere of radius `radius` assuming that the coordinate system
    * of `start` shares the same origin as the sphere.
    *
-   * This returns the intersection that is *along* the forward direction
+   * This returns the first intersection that is *along* the forward direction
    * of the ray's path given `direction`.
    *
    * @param start        The starting location of the ray.
@@ -53,6 +54,6 @@ namespace apricot {
   auto
   propagate_to_sphere(const CartesianCoordinate& start,
                       const Vector& direction,
-                      const double radius) -> CartesianCoordinate;
+                      const double radius) -> std::optional<CartesianCoordinate>;
 
 } // namespace apricot

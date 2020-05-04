@@ -11,6 +11,7 @@ void Py_Source(py::module&);
 void Py_Particle(py::module&);
 void Py_Neutrino(py::module&);
 void Py_Detector(py::module&);
+void Py_Geometry(py::module&);
 void Py_Atmosphere(py::module&);
 void Py_Propagator(py::module&);
 void Py_Interaction(py::module&);
@@ -34,6 +35,7 @@ PYBIND11_MODULE(_apricot, m) {
   Py_Particle(m); // Particle.hpp
   Py_Neutrino(m); // Neutrino.hpp
   Py_Detector(m); // Detector.hpp
+  Py_Geometry(m); // Geometry.hpp
   Py_Propagator(m); // Propagator.hpp
   Py_Interaction(m); // Interaction.hpp
   Py_Atmosphere(m); // Atmosphere.hpp

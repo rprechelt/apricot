@@ -7,6 +7,7 @@ list(APPEND SOURCES
   "PySource.cpp"
   "PyParticle.cpp"
   "PyNeutrino.cpp"
+  "PyGeometry.cpp"
   "PyDetector.cpp"
   "PyPropagator.cpp"
   "PyInteraction.cpp"
