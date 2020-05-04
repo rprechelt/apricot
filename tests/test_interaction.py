@@ -17,9 +17,10 @@ def test_create_access():
     location = np.asarray([0, 0, 6000.0])
     direction = np.asarray([0, 1.0, 0.0])
     weight = 0.5
+    altitude = 2.
 
     # create an interaction
-    interaction = apricot.Interaction(pdgid, energy, itype, location, direction, weight)
+    interaction = apricot.Interaction(pdgid, energy, itype, location, direction, weight, altitude)
 
     # and check that everything matches
     np.testing.assert_allclose(pdgid, interaction.pdgid)
@@ -28,3 +29,4 @@ def test_create_access():
     np.testing.assert_allclose(location, interaction.location)
     np.testing.assert_allclose(direction, interaction.direction)
     np.testing.assert_allclose(weight, interaction.weight)
+    np.testing.assert_allclose(altitude, interaction.altitude)
