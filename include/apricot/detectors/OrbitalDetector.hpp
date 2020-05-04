@@ -18,7 +18,7 @@ namespace apricot {
   class OrbitalDetector final : public Detector {
 
     const Earth& earth_;                 ///< The earth model that we use.
-    const CartesianCoordinate& payload_; ///< The current location of the detector [km].
+    const CartesianCoordinate payload_;  ///< The current location of the detector [km].
     double maxview_;                     ///< The maximum view angle [radians].
     double maxalt_{100. + 1e-3};         ///< The maximum altitude before we cut.
     const std::string mode_; ///< The detection mode (direct, reflected, or both)

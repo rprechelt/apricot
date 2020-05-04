@@ -1,6 +1,5 @@
 #include "apricot/detectors/OrbitalDetector.hpp"
 
-
 using namespace apricot;
 
 auto
@@ -36,9 +35,14 @@ OrbitalDetector::detectable(const InteractionInfo& info,
                             const CartesianCoordinate& location,
                             const CartesianCoordinate& direction) const -> bool {
 
+  // we check for events whose view angles *along* the particle
+  // axis are less than maxview and events whose view angle
+  // *back along* the axis is less than view angle. This accounts
+  // for events that reach shower max after the payload but whose
+  // RF emission may be pass very close by the payload.
+  if ( (view_angle(location, direction) < this->maxview_) ||
+       (view_angle(location, -direction) < this->maxview_) ) {
 
-  // and the dot product between this view angle and the axis
-  if (view_angle(location, direction) < this->maxview_) {
     // we are within maxview of the payload
     return true;
   }
@@ -62,8 +66,8 @@ OrbitalDetector::cut(const std::unique_ptr<Particle>& particle,
   // if the particle started greater than our max altitude, then cut
   if (radius > (surface + this->maxalt_)) return true;
 
-  // if the particle reaches the ground, then also cut
-  if (radius < surface) return true;
+  // if the particle reaches 10m's below ground, then cut it.
+  if (radius < (surface - 1e-2)) return true;
 
   // get the view angle from the interaction to the payload
   // const auto viewangle{view_angle(location, direction)};
