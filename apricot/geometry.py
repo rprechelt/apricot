@@ -2,8 +2,10 @@
 Provide various geometry related functions for apricot data.
 """
 from typing import Union
+
 import numpy as np
 import pandas as pd
+
 import _apricot
 from _apricot.geometry import *
 
@@ -87,9 +89,24 @@ def payload_elevation(
     # so that the horizon is at 0 degrees
     angle = np.degrees(np.pi / 2.0 - np.arccos(dot))
 
+    # we now calculate the off-axis view angles
+    # for each of these events
+    offaxis = view_angle(events, payload)
+
+    # if the offaxis is greater than 90 degrees, we need to
+    # reflect the elevation angles above the horizon
+    # since they are events that developed PAST anita.
+
+    # these are the events we need to invert above the horizon
+    backward = offaxis > 90.0
+
+    # so invert/reflect over the horizon
+    angle[backward] = -angle[backward]
+
     # if we have inplace, add it to the DataFrame
     if inplace:
         events["elevation"] = angle
+        events["backwards"] = backward
 
     # otherwise, just return the angle's
     return angle
