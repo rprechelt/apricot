@@ -114,3 +114,22 @@ OrbitalDetector::cut(const std::unique_ptr<Particle>& particle,
   // otherwise, don't cut
   return false;
 }
+
+
+auto
+apricot::mode_from_string(const std::string& mode) -> DetectionMode {
+
+  if (mode.compare("direct") == 0) {
+    return DetectionMode::Direct;
+  }
+  else if (mode.compare("reflected") == 0) {
+    return DetectionMode::Reflected;
+  }
+  else if (mode.compare("both") == 0) {
+    return DetectionMode::Both;
+  }
+  else {
+    throw std::invalid_argument("Unknown detection `mode` [direct, reflected, both].");
+  }
+
+}

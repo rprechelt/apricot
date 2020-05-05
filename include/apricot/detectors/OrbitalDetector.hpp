@@ -13,6 +13,17 @@ namespace apricot {
   using Angle = double;
 
   /**
+   * An enum for the detection mode.
+   */
+  enum class DetectionMode { Direct = 0, Reflected = 1, Both = 2 };
+
+  /**
+   * Convert a string to a detection mode.
+   */
+  auto
+  mode_from_string(const std::string& mode) -> DetectionMode;
+
+  /**
    * A radio or optical detector at altitude above the Earth.
    *
    * This class models a balloon-borne or space detector above. Given the
@@ -26,7 +37,7 @@ namespace apricot {
     const CartesianCoordinate payload_; ///< The current location of the detector [km].
     double maxview_;                    ///< The maximum view angle [radians].
     double maxalt_{100. + 1e-3};        ///< The maximum altitude before we cut.
-    const std::string mode_;            ///< The detection mode (direct, reflected, or both)
+    const DetectionMode mode_;           ///< The detection mode (direct, reflected, or both)
 
     public:
     /**
@@ -41,11 +52,11 @@ namespace apricot {
     OrbitalDetector(const Earth& earth,
                     const CartesianCoordinate& location,
                     const double maxview,
-                    const std::string mode = "both") :
+                    const std::string& mode = "both") :
         earth_(earth),
         payload_(location),
         maxview_(deg_to_rad(maxview)),
-        mode_(mode){};
+        mode_(mode_from_string(mode)) {};
 
     /**
      * True if an interaction is detectable and should be saved.
