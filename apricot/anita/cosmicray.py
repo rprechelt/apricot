@@ -39,15 +39,17 @@ def propagate(
     # the location of the payload
     payload = np.asarray([0, 0, -(Re + altitude)])
 
+    # use a smaller than default angle to choose source origins from
+    theta = np.pi/12.
+
     # we pick particles on a cap 100km above the surface
-    source = apricot.SphericalCapSource(radius=Re + 100.0)
+    source = apricot.SphericalCapSource(radius=Re + 100.0, theta=theta, center=np.pi)
 
     # create a flux model that just creates (10^19) cosmic ray protons.
     flux = parsing.create_flux(particle, min_energy, max_energy, fixed_energy)
 
     # create a simple detector
     detector = apricot.OrbitalDetector(earth, payload, maxview, mode=mode)
-    # detector = apricot.PerfectDetector()
 
     # create a simple propagator
     propagator = apricot.SimplePropagator(earth)
