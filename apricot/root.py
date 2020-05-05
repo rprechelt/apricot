@@ -37,6 +37,9 @@ def to_file(filename: str, interactions: List[List[apricot.Interaction]]) -> Non
         If the output file can not be found.
     """
 
+    # the number of trials
+    ntrials = len(interactions)
+
     # remove any empty interactions
     interactions = [i for i in interactions if i]
 
@@ -117,6 +120,11 @@ def to_file(filename: str, interactions: List[List[apricot.Interaction]]) -> Non
             }
         )
 
+        # and save some parameters into the ROOT file
+        # unfortunately, we can only write TObjString
+        # at the top-level
+        f["ntrials"] = str(ntrials)
+
         # and we are done
 
 
@@ -172,6 +180,9 @@ def as_pandas(filename: str, **kwargs) -> pd.DataFrame:
             ).T,
             df,
         )
+
+        # and assign the number of trials to the DataFrame
+        df.ntrials = int(f[b"ntrials"])
 
         # and return the dataframe
         return df
