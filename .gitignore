@@ -1,3 +1,6 @@
+*.root
+*.dat
+*.csv
 .DS_Store
 *.idea
 *.log
