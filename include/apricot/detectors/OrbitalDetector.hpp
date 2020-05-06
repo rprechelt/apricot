@@ -37,7 +37,27 @@ namespace apricot {
     const CartesianCoordinate payload_; ///< The current location of the detector [km].
     double maxview_;                    ///< The maximum view angle [radians].
     double maxalt_{100. + 1e-3};        ///< The maximum altitude before we cut.
-    const DetectionMode mode_;           ///< The detection mode (direct, reflected, or both)
+    const DetectionMode mode_;          ///< The detection mode (direct, reflected, or both)
+
+    /**
+     * Check if this particle is directly visible.
+     *
+     * @param location    The location of the interaction.
+     * @param direction   The unit-length direction vector.
+     */
+    auto
+    visible_direct(const CartesianCoordinate& location,
+                   const CartesianCoordinate& direction) const -> bool;
+
+      /**
+     * Check if this particle is visible undere reflection.
+     *
+     * @param location    The location of the interaction.
+     * @param direction   The unit-length direction vector.
+     */
+    auto
+    visible_reflected(const CartesianCoordinate& location,
+                      const CartesianCoordinate& direction) const -> bool;
 
     public:
     /**
@@ -56,7 +76,7 @@ namespace apricot {
         earth_(earth),
         payload_(location),
         maxview_(deg_to_rad(maxview)),
-        mode_(mode_from_string(mode)) {};
+        mode_(mode_from_string(mode)){};
 
     /**
      * True if an interaction is detectable and should be saved.

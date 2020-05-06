@@ -1,4 +1,5 @@
 #include "apricot/detectors/OrbitalDetector.hpp"
+#include "apricot/Geometry.hpp"
 
 using namespace apricot;
 
@@ -14,37 +15,53 @@ OrbitalDetector::view_angle(const CartesianCoordinate& location,
 }
 
 auto
-OrbitalDetector::payload_angle(const CartesianCoordinate& location,
-                               const CartesianCoordinate& direction) const -> Angle {
+OrbitalDetector::visible_reflected(const CartesianCoordinate& location,
+                                   const CartesianCoordinate& direction) const -> bool {
 
-  // the vector to the location from the payload
-  const auto view{location - this->payload_};
+  // calculate the location of a potential surface hit
+  // along the shower axis
+  const auto surface{earth_.find_surface(location, direction)};
 
-  // the angle between the payload nadir and the view angle
-  const auto nadir{acos(this->payload_.normalized().dot(view.normalized()))};
+  // if we don't hit the surface, then it can't be visible under reflection
+  if (!surface) return false;
 
-  // and convert this to being referenced from the payload horizontal
-  return M_PI / 2. - nadir;
+  // if we get here, the shower axis *does* intersect the surface.
+
+  // get the vector *to* the payload from the surface intersection
+  const auto surface_view{payload_ - *surface};
+
+  // reflect this view vector below the surface to find the proxy payload
+  const auto reflected_payload{reflect_below(surface_view, (*surface).normalized())};
+
+  // now compute the view vector from the interaction to the reflected payload
+  const auto view{(reflected_payload - location).normalized()};
+
+  // the offaxis angle
+  const auto offaxis{acos(view.dot(direction))};
+
+  // if we are within maxview, then we are detectable
+  if (offaxis < maxview_) return true;
+
+  // otherwise, we are not visible under reflection
+  return false;
+
+
 }
 
 auto
-OrbitalDetector::detectable(const InteractionInfo& info,
-                            const std::unique_ptr<Particle>& particle,
-                            const CartesianCoordinate& location,
-                            const CartesianCoordinate& direction) const -> bool {
+OrbitalDetector::visible_direct(const CartesianCoordinate& location,
+                                const CartesianCoordinate& direction) const -> bool {
 
-  // we check for events whose view angle *back along* the axis is less than max
-  // angle. This accounts for events that reach shower max after the payload
+  // we can check for events whose view angle *back along* the axis is less than
+  // max angle. This accounts for events that reach shower max after the payload
   // but whose RF emission may be pass very close by the payload.
-  if (view_angle(location, -direction) < this->maxview_) {
-    // this is backwardly visible
-    return true;
-  }
+    if (view_angle(location, -direction) < this->maxview_) {
+      return true;
+    }
 
   // otherwise, we check for events whose view angles *along* the particle axis
   // are less than maxview. This has some additional complexity as paths
   // can be naively visible but actually intersect the Earth
-
   if (view_angle(location, direction) < this->maxview_) {
 
     // if we got here, the interaction is potentially visible
@@ -52,7 +69,7 @@ OrbitalDetector::detectable(const InteractionInfo& info,
     // intersect the Earth somewhere along the ray
 
     // compute the view vector
-    const auto view{this->payload_ - location};
+    const auto view{(this->payload_ - location).normalized()};
 
     // calculate the location of a potential surface intersection
     const auto surface{earth_.find_surface(location, view)};
@@ -84,6 +101,42 @@ OrbitalDetector::detectable(const InteractionInfo& info,
 
   // otherwise don't save the event.
   return false;
+}
+
+auto
+OrbitalDetector::payload_angle(const CartesianCoordinate& location,
+                               const CartesianCoordinate& direction) const -> Angle {
+
+  // the vector to the location from the payload
+  const auto view{location - this->payload_};
+
+  // the angle between the payload nadir and the view angle
+  const auto nadir{acos(this->payload_.normalized().dot(view.normalized()))};
+
+  // and convert this to being referenced from the payload horizontal
+  return M_PI / 2. - nadir;
+}
+
+auto
+OrbitalDetector::detectable(const InteractionInfo& info,
+                            const std::unique_ptr<Particle>& particle,
+                            const CartesianCoordinate& location,
+                            const CartesianCoordinate& direction) const -> bool {
+
+  // if we only look for direct events
+  if (mode_ == DetectionMode::Direct) {
+    return visible_direct(location, direction);
+  }
+  else if (mode_ == DetectionMode::Reflected) {
+    return visible_reflected(location, direction);
+  }
+  else if (mode_ == DetectionMode::Both) {
+    return visible_direct(location, direction) || visible_reflected(location, direction);
+  }
+
+  // we should never get here
+  throw std::runtime_error("Invalid state in OrbitalDetector::detectable");
+
 }
 
 auto
@@ -119,13 +172,13 @@ OrbitalDetector::cut(const std::unique_ptr<Particle>& particle,
 auto
 apricot::mode_from_string(const std::string& mode) -> DetectionMode {
 
-  if (mode.compare("direct") == 0) {
+  if (mode == "direct") {
     return DetectionMode::Direct;
   }
-  else if (mode.compare("reflected") == 0) {
+  else if (mode == "reflected") {
     return DetectionMode::Reflected;
   }
-  else if (mode.compare("both") == 0) {
+  else if (mode == "both") {
     return DetectionMode::Both;
   }
   else {

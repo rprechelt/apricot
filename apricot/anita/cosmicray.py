@@ -40,7 +40,9 @@ def propagate(
     payload = np.asarray([0, 0, -(Re + altitude)])
 
     # use a smaller than default angle to choose source origins from
-    theta = np.pi/12.
+    # this is beyond the horizon for ANITA (37.5) viewing a spot
+    # on a spherical cap at 100 km ASL
+    theta = np.pi / 10.0
 
     # we pick particles on a cap 100km above the surface
     source = apricot.SphericalCapSource(radius=Re + 100.0, theta=theta, center=np.pi)
