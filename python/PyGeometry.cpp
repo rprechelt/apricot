@@ -19,6 +19,10 @@ Py_Geometry(py::module& m) {
   geometry.def("random_spherical_point",
                &random_spherical_point,
                "Return a random vector on the unit sphere.");
+  geometry.def("spherical_cap_area",
+               &spherical_cap_area,
+               py::arg("theta"), py::arg("radius"),
+               "Return the area of a spherical cap.");
   geometry.def("random_cap_point",
                &random_cap_point,
                py::arg("mintheta"),

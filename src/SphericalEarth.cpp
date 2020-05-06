@@ -11,7 +11,7 @@ SphericalEarth::radius(const CartesianCoordinate&) const -> double {
 
 auto
 SphericalEarth::cap_area(const CartesianCoordinate& center, const double theta) -> double {
-  return 2*M_PI*radius_*radius_*(1 - cos(theta));
+  return spherical_cap_area(theta, radius_);
 }
 
 auto

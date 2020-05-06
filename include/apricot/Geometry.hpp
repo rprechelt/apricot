@@ -17,6 +17,20 @@ namespace apricot {
   random_spherical_point() -> Vector;
 
   /**
+   * Return the area of a spherical cap.
+   *
+   * Given the angular half-opening angle (i.e. longitude) of a
+   * spherical cap, and the radius, return the area in units of radius**2.
+   *
+   * @param theta    The half-opening angle of the cap.
+   * @param radius   The radius of the sphere.
+   *
+   * @returns        The area of the spherical cap.
+   */
+  auto
+  spherical_cap_area(const double theta, const double radius) -> double;
+
+  /**
    * Return a random point on the surface of a spherical cap.
    *
    * This returns a random point (picked using true spherical point

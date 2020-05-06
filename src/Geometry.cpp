@@ -44,6 +44,11 @@ apricot::random_cap_point(const double mintheta,
 }
 
 auto
+apricot::spherical_cap_area(const double theta, const double radius) -> double {
+  return 2*M_PI*radius*radius*(1. - cos(theta));
+}
+
+auto
 apricot::propagate_to_sphere(const CartesianCoordinate& start,
                              const CartesianCoordinate& direction,
                              const double radius) -> std::optional<CartesianCoordinate> {
