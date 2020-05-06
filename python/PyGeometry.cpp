@@ -36,6 +36,49 @@ Py_Geometry(py::module& m) {
                py::arg("direction"),
                py::arg("radius"),
                "Propagate a vector to the surface of a sphere.");
+  geometry.def("propagate_to_sphere",
+               [](const Eigen::Matrix<double, Eigen::Dynamic, 3> start,
+                  const Eigen::Matrix<double, Eigen::Dynamic, 3> direction,
+                  const double radius) -> Eigen::Matrix<double, Eigen::Dynamic, 3> {
+
+                 // get the number of rows in the input
+                 const auto N{start.rows()};
+
+                 // check that directions has the same number of rows
+                 if (N != direction.rows()) {
+                   throw std::invalid_argument("`start` and `direction` are different sizes!");
+                 }
+
+                 // create the output array
+                 Eigen::Matrix<double, Eigen::Dynamic, 3> out(N, 3);
+
+                 // get a reference to a quiet NaN
+                 const auto nan{std::numeric_limits<double>::quiet_NaN()};
+
+                 // loop over the number of input rows
+                 for (int i = 0; i < N; ++i) {
+
+                   // propagate this row to the surface
+                   const auto surface{propagate_to_sphere(start.row(i), direction.row(i), radius)};
+
+                   // if we got a surface hit, save it
+                   // otherwise make sure it is zero
+                   if (surface) {
+                     out.row(i) = *surface;
+                   }
+                   else {
+                     out.row(i) << nan, nan, nan;
+                   }
+                 }
+
+                 // and return the surface points
+                 return out;
+
+               },
+               py::arg("start"),
+               py::arg("direction"),
+               py::arg("radius"),
+               "Propagate a vector to the surface of a sphere.");
   geometry.def("reflect_below",
                &reflect_below,
                py::arg("location"),

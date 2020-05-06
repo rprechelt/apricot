@@ -136,6 +136,35 @@ def test_propagate_to_sphere_from_outside():
         # and in the right location.
         np.testing.assert_allclose(surface, start[j, :] / np.linalg.norm(start[j, :]))
 
+def test_propagate_to_sphere_from_outside_vector():
+    """
+    Generate a set of random vectors *outside* the unit sphere centered
+    at a different random point within the unit sphere and propagate
+    them to a sphere of random radius between 1 and 100.
+
+    We then verify that the rays are all at the surface,
+    and that the forward solution was chosen.
+    """
+
+    # the number of radial vectors we try
+    N = 200
+
+    # generate N starting locations
+    start = 100.0 * np.random.random((N, 3))
+
+    # the directions are the inverses of the starting locations
+    directions = -np.copy(start)
+
+    # and make sure directions are normalized
+    directions /= np.linalg.norm(directions, axis=1).reshape((-1, 1))
+
+    # propagate them all to a surface at radius 1.
+    surface = apricot.geometry.propagate_to_sphere(start, directions, 1.)
+
+    # and check that they are at the surface of the sphere
+    # and in the right location.
+    np.testing.assert_allclose(surface, start / np.linalg.norm(start, axis=1).reshape((-1, 1)))
+
 
 def test_reflect_below_basic():
     """
