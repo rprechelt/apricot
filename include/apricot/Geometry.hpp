@@ -56,4 +56,21 @@ namespace apricot {
                       const Vector& direction,
                       const double radius) -> std::optional<CartesianCoordinate>;
 
+  /**
+   * Reflect `location` *below* the surface defined by `normal`.
+   *
+   * Given a vector `location` measured from the location of `normal`
+   * (a unit-length) normal vector the surface, calculate the
+   * mirror image of `location` *BELOW* the surface.
+   *
+   * @param location    The vector to reflect/mirror.
+   * @param normal      The normal vector of the surface (unit-length).
+   *
+   * @returns reflected `location` reflected below the surface.
+   *
+   */
+  auto
+  reflect_below(const CartesianCoordinate& location,
+                const CartesianCoordinate& normal) -> CartesianCoordinate;
+  
 } // namespace apricot

@@ -32,4 +32,8 @@ Py_Geometry(py::module& m) {
                py::arg("direction"),
                py::arg("radius"),
                "Propagate a vector to the surface of a sphere.");
+  geometry.def("reflect_below",
+               &reflect_below,
+               py::arg("location"),
+               py::arg("normal"));
 }

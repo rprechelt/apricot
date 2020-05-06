@@ -134,6 +134,51 @@ def test_propagate_to_sphere_from_outside():
 
         # and check that they are at the surface of the sphere
         # and in the right location.
-        np.testing.assert_allclose(
-            surface, start[j, :] / np.linalg.norm(start[j, :])
-        )
+        np.testing.assert_allclose(surface, start[j, :] / np.linalg.norm(start[j, :]))
+
+
+def test_reflect_below_basic():
+    """
+    Perform some basic checks on `reflect_below`.
+    """
+
+    # some basic axis vectors to test with
+    x = np.asarray([1.0, 0.0, 0.0])
+    y = np.asarray([0.0, 1.0, 0.0])
+    z = np.asarray([0.0, 0.0, 1.0])
+
+    # check that reflecting the normal over the normal is just
+    # changing the direction of the vector
+    np.testing.assert_allclose(-x, apricot.geometry.reflect_below(x, x))
+    np.testing.assert_allclose(-y, apricot.geometry.reflect_below(y, y))
+    np.testing.assert_allclose(-z, apricot.geometry.reflect_below(z, z))
+
+    # check that reflecting a perpendicular vector
+    # just gives back the same vector.
+    np.testing.assert_allclose(y, apricot.geometry.reflect_below(y, x))
+    np.testing.assert_allclose(z, apricot.geometry.reflect_below(z, x))
+    np.testing.assert_allclose(x, apricot.geometry.reflect_below(x, y))
+    np.testing.assert_allclose(z, apricot.geometry.reflect_below(z, y))
+    np.testing.assert_allclose(x, apricot.geometry.reflect_below(x, z))
+    np.testing.assert_allclose(y, apricot.geometry.reflect_below(y, z))
+
+    # and check that we can reflect 45 degree angles
+    np.testing.assert_allclose(x - y, apricot.geometry.reflect_below(x + y, y))
+    np.testing.assert_allclose(y - x, apricot.geometry.reflect_below(-x - y, y))
+    np.testing.assert_allclose(x - z, apricot.geometry.reflect_below(x + z, z))
+    np.testing.assert_allclose(z - x, apricot.geometry.reflect_below(-x - z, z))
+
+    # and check that scaling things also works
+    np.testing.assert_allclose(5 * x - y, apricot.geometry.reflect_below(5 * x + y, y))
+    np.testing.assert_allclose(3 * y - x, apricot.geometry.reflect_below(-x - 3 * y, y))
+    np.testing.assert_allclose(
+        2 * x - 4 * z, apricot.geometry.reflect_below(2 * x + 4 * z, z)
+    )
+    np.testing.assert_allclose(
+        4 * z - 7 * x, apricot.geometry.reflect_below(-7 * x - 4 * z, z)
+    )
+
+    # and perform a full 3D mirror
+    np.testing.assert_allclose(
+        3 * x + 4 * y - 5 * z, apricot.geometry.reflect_below(3 * x + 4 * y + 5 * z, z)
+    )

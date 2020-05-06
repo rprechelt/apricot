@@ -1,7 +1,7 @@
 #include "apricot/Geometry.hpp"
-#include "apricot/earth/SphericalEarth.hpp"
-#include "apricot/Random.hpp"
 #include "Utils.hpp"
+#include "apricot/Random.hpp"
+#include "apricot/earth/SphericalEarth.hpp"
 #include <stdexcept>
 
 using namespace apricot;
@@ -23,7 +23,9 @@ apricot::random_spherical_point() -> CartesianCoordinate {
 }
 
 auto
-apricot::random_cap_point(const double mintheta, const double maxtheta, const double minphi,
+apricot::random_cap_point(const double mintheta,
+                          const double maxtheta,
+                          const double minphi,
                           const double maxphi) -> Vector {
 
   // choose a random point on the unit-sphere between mintheta and
@@ -42,7 +44,8 @@ apricot::random_cap_point(const double mintheta, const double maxtheta, const do
 }
 
 auto
-apricot::propagate_to_sphere(const CartesianCoordinate& start, const CartesianCoordinate& direction,
+apricot::propagate_to_sphere(const CartesianCoordinate& start,
+                             const CartesianCoordinate& direction,
                              const double radius) -> std::optional<CartesianCoordinate> {
   // we assume that the surface intersection point can be parametrized as
   // surface = start + t*direction
@@ -67,14 +70,15 @@ apricot::propagate_to_sphere(const CartesianCoordinate& start, const CartesianCo
   const auto LD{start.dot(direction)};
 
   // now compute the squared distance of closest approach
-  const auto D2{start.dot(start) - LD*LD};
+  const auto D2{start.dot(start) - LD * LD};
 
   // if this is greater than the squared radius, then we don't
   // intersect the sphere. So, return a none value
-  if (D2 > radius*radius) return std::nullopt;
+  if (D2 > radius * radius)
+    return std::nullopt;
 
   // now compute the offset from this central intersect point
-  const auto thc{sqrt(radius*radius - D2)};
+  const auto thc{sqrt(radius * radius - D2)};
 
   // due to numerical precision, we generally always have
   // two solutions to the intersection: -LD +/- thc
@@ -86,10 +90,10 @@ apricot::propagate_to_sphere(const CartesianCoordinate& start, const CartesianCo
 
   // compute the parameter for the appropriate intersection
   // using the starting radius to check for the sign
-  const auto t{-LD - sgn(start.norm() - radius)*thc};
+  const auto t{-LD - sgn(start.norm() - radius) * thc};
 
   // now compute the intersection with the surface
-  const auto surface{start + t*direction};
+  const auto surface{start + t * direction};
 
   // and check that we are indeed at the surface.
   // if ((magnitude < (radius - 1e-3)) || (magnitude > (radius + 1e-3))) {
@@ -98,4 +102,19 @@ apricot::propagate_to_sphere(const CartesianCoordinate& start, const CartesianCo
 
   // and return the surface point
   return surface;
+}
+
+auto
+apricot::reflect_below(const CartesianCoordinate& location,
+                       const CartesianCoordinate& normal) -> CartesianCoordinate {
+
+  // given a vector v, and a normal n, the mirror image of v below
+  // the surface defined by n is:
+  // R = v - 2(v . n)n
+
+  // find the projection vector of `location` onto the `normal`.
+  const auto P{location.dot(normal) * normal};
+
+  // and construct the mirrored vector
+  return location - 2 * P;
 }
