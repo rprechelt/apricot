@@ -35,6 +35,20 @@ namespace apricot {
     }
 
     /**
+     * Check if a source particle and direction is valid.
+     *
+     * This is called *once* when the source particle and direction
+     * is sampled from the source+flux. This allows for cutting particles
+     * before they are propagated at all.
+     */
+    virtual auto
+    is_good(const std::unique_ptr<Particle>& particle,
+            const CartesianCoordinate& location,
+            const CartesianCoordinate& direction) const -> bool {
+      return true;
+    }
+
+    /**
      * A virtual destructor.
      */
     virtual ~Detector() = default;

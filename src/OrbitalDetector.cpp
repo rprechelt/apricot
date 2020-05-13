@@ -179,6 +179,24 @@ OrbitalDetector::cut(const std::unique_ptr<Particle>& particle,
   return false;
 }
 
+auto
+OrbitalDetector::is_good(const std::unique_ptr<Particle>& particle,
+                         const CartesianCoordinate& location,
+                         const CartesianCoordinate& direction) const -> bool {
+
+  // get the view angle to the payload
+  const auto view{view_angle(location, direction)};
+
+  // if the view angle is greater than 12 degrees, the trajectory isn't good
+  if (view > M_PI / 15. ) {
+    return false;
+  }
+
+  // by default, we assume it's good
+  return true;
+
+}
+
 
 auto
 apricot::mode_from_string(const std::string& mode) -> DetectionMode {

@@ -122,6 +122,18 @@ namespace apricot {
     payload_angle(const CartesianCoordinate& location,
                   const CartesianCoordinate& direction) const -> Angle;
 
+    /**
+     * Allow particles that point within a fixed angle from the payload.
+     *
+     * This is called *once* when the source particle and direction
+     * is sampled from the source+flux. This allows for cutting particles
+     * before they are propagated at all.
+     */
+    auto
+    is_good(const std::unique_ptr<Particle>& particle,
+            const CartesianCoordinate& location,
+            const CartesianCoordinate& direction) const -> bool final override;
+
     /*
      * Return the maximum view angle [degrees].
      */
