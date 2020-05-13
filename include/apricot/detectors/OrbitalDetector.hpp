@@ -38,6 +38,7 @@ namespace apricot {
     double maxview_;                    ///< The maximum view angle [radians].
     double maxalt_{100. + 1e-3};        ///< The maximum altitude before we cut.
     bool backwards_{false};             ///< Whether to check for detections backwards along the axis.
+    double cutangle_{M_PI};             ///< The initial source cut angle (radians).
     const DetectionMode mode_;          ///< The detection mode (direct, reflected, or both)
 
     /**
@@ -139,7 +140,7 @@ namespace apricot {
      */
     auto
     get_maxview() const -> Angle {
-      return this->maxview_;
+      return rad_to_deg(this->maxview_);
     }
 
     /*
@@ -186,6 +187,24 @@ namespace apricot {
     auto
     set_backwards(const bool backwards) -> void {
       this->backwards_ = backwards;
+    }
+
+    /*
+     * Return the maximum view angle [degrees].
+     */
+    auto
+    get_cutangle() const -> Angle {
+      return rad_to_deg(this->cutangle_);
+    }
+
+    /*
+     * Set the maximum view angle [degrees].
+     *
+     * @param maxview   The new maximum view angle [degrees].
+     */
+    auto
+    set_cutangle(const Angle cutangle) -> void {
+      this->cutangle_ = deg_to_rad(cutangle);
     }
 
     /**

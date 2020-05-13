@@ -188,7 +188,7 @@ OrbitalDetector::is_good(const std::unique_ptr<Particle>& particle,
   const auto view{view_angle(location, direction)};
 
   // if the view angle is greater than 12 degrees, the trajectory isn't good
-  if (view > M_PI / 15. ) {
+  if (view > this->cutangle_ ) {
     return false;
   }
 

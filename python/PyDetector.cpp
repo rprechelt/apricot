@@ -42,6 +42,9 @@ Py_Detector(py::module& m) {
            "Calculate the payload elevation angle of the event [radians].")
       .def_property("maxalt", &OrbitalDetector::get_maxalt, &OrbitalDetector::set_maxalt)
       .def_property("maxview", &OrbitalDetector::get_maxview, &OrbitalDetector::set_maxview)
+      .def_property("cutangle",
+                    &OrbitalDetector::get_cutangle,
+                    &OrbitalDetector::set_cutangle)
       .def_property("backwards",
                     &OrbitalDetector::get_backwards,
                     &OrbitalDetector::set_backwards)
