@@ -17,6 +17,9 @@ list(APPEND SOURCES
   "PyNeutrinoYFactor.cpp"
   )
 
+# we want to support C++17 with PyBind11
+set(PYBIND11_CPP_STANDARD -std=c++17)
+
 # find and load PyBind11
 find_package(pybind11)
 
@@ -48,16 +51,12 @@ IF(NOT pybind11_FOUND)
   # and now
 ENDIF()
 
-# we want to support C++17 with PyBind11
-set(PYBIND11_CPP_STANDARD -std=c++17)
-
 # and wrap each of these sources into our app
 # use SYSTEM to include PyBind11 as a system library
-pybind11_add_module(_apricot "PyApricot.cpp" ${SOURCES})
+pybind11_add_module(_apricot MODULE SYSTEM "PyApricot.cpp" ${SOURCES})
 
 # add our include directory for header files
 target_include_directories(_apricot PRIVATE "${CMAKE_HOME_DIRECTORY}/include")
-# target_include_directories(_apricot PRIVATE "${CMAKE_HOME_DIRECTORY}/extern/magic_enum/include")
 
 # we need Eigen for our interface
 find_package (Eigen3 3.3 REQUIRED NO_MODULE)
