@@ -2,16 +2,20 @@
 Read and write interactions to and from ROOT files.
 """
 from types import MethodType
-from typing import List
+from typing import Any, Dict, List, Tuple
 
 import numpy as np
-import pandas as pd
 import uproot
 
 import apricot
+import pandas as pd
 
 
-def to_file(filename: str, interactions: List[List[apricot.Interaction]]) -> None:
+def to_file(
+    filename: str,
+    interactions: List[List[apricot.Interaction]],
+    parameters: Dict[str, Any],
+) -> None:
     """
     Write a collection of interaction tree lists to a ROOT file.
 
@@ -26,6 +30,8 @@ def to_file(filename: str, interactions: List[List[apricot.Interaction]]) -> Non
         The filename to write the interactions to.
     interactions: List[List[Interaction]]
         A jagged list of apricot Interactions.
+    parameters: Dict[str, Any]
+        A dict of simulation parameters to write to the fle.
 
     Returns
     -------
@@ -36,9 +42,6 @@ def to_file(filename: str, interactions: List[List[apricot.Interaction]]) -> Non
     FileNotFoundError
         If the output file can not be found.
     """
-
-    # the number of trials
-    ntrials = len(interactions)
 
     # remove any empty interactions
     interactions = [i for i in interactions if i]
@@ -120,15 +123,19 @@ def to_file(filename: str, interactions: List[List[apricot.Interaction]]) -> Non
             }
         )
 
-        # and save some parameters into the ROOT file
-        # unfortunately, we can only write TObjString
-        # at the top-level
-        f["ntrials"] = str(ntrials)
+        # create the branches for the parameter tree
+        param_branches = {k: type(v) for k, v in parameters.items()}
 
-        # and we are done
+        # create the parmaeter tree
+        f["parameters"] = uproot.newtree(param_branches, title="parameters")
+
+        # and write the data to the three
+        f["parameters"].extend(_sanitize_parameters(parameters))
+
+    # and we are done
 
 
-def as_pandas(filename: str, **kwargs) -> pd.DataFrame:
+def from_file(filename: str, **kwargs) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Load a apricot ROOT file as a Pandas dataframe.
 
@@ -181,8 +188,38 @@ def as_pandas(filename: str, **kwargs) -> pd.DataFrame:
             df,
         )
 
-        # and assign the number of trials to the DataFrame
-        df.ntrials = int(f[b"ntrials"])
+        # also load the parameters
+        parameters = f["parameters"].pandas.df()
 
         # and return the dataframe
-        return df
+        return df, parameters
+
+
+def _sanitize_parameters(parameters: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Sanitize `parameters` so that we can write it to
+    a ROOT file.
+
+    Parameters
+    ----------
+    parameters: Dict[str, Any]
+        The parameters to write to the file.
+
+    Returns
+    -------
+    parameters: Dict[str, Any]
+        The writeable parameters.
+    """
+
+    # fix the energy
+    for energy in ["min_energy", "max_energy", "fixed_energy"]:
+
+        # make the energy zero if it's not provided
+        if parameters[energy] == None:
+            parameters[energy] = 0.0
+
+    # and convert every element to a list
+    sanitized = {k: [v] for k, v in parameters.items()}
+
+    # and return the sanitized energy
+    return sanitized
