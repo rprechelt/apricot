@@ -77,14 +77,16 @@ namespace apricot {
         -> std::optional<CartesianCoordinate>;
 
     /**
-     * Get the area of a spherical cap.
+     * Return the area of a spherical cap at a given altitude [km^2].
      *
-     * @param center    The center of the spherical cap.
-     * @param theta     The HALF-opening angle of the cap [radians]
+     * @param center    The central polar angle of the cap.
+     * @param theta     The half-opening angle of the cap (radians).
+     * @param altitude  The altitude [km] above the surface of the cap.
      *
      */
-    auto
-    cap_area(const CartesianCoordinate& center, const double theta) -> double;
+    virtual auto
+    surface_area(const double center, const double theta, const double altitude = 0.) const
+        -> double;
 
   }; // END: class SphericalEarth
 

@@ -10,12 +10,15 @@ SphericalEarth::radius(const CartesianCoordinate&) const -> double {
 }
 
 auto
-SphericalEarth::cap_area(const CartesianCoordinate& center, const double theta) -> double {
-  return spherical_cap_area(theta, radius_);
+SphericalEarth::surface_area(const double center,
+                             const double theta,
+                             const double altitude) const -> double {
+  return spherical_cap_area(theta, radius_ + altitude);
 }
 
 auto
-SphericalEarth::find_surface(const CartesianCoordinate& location, const Vector& direction) const
-  -> std::optional<CartesianCoordinate> {
+SphericalEarth::find_surface(const CartesianCoordinate& location,
+                             const Vector& direction) const
+    -> std::optional<CartesianCoordinate> {
   return propagate_to_sphere(location, direction, this->radius(location));
 }

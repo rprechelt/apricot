@@ -58,11 +58,12 @@ Py_Earth(py::module& m) {
       .def_readonly_static("polar_curvature", &SphericalEarth::POLAR_CURVATURE)
       .def_readonly_static("equatorial_radius", &SphericalEarth::EQUATORIAL)
       .def_readonly_static("volumetric_radius", &SphericalEarth::VOLUMETRIC)
-      .def("cap_area",
-           &SphericalEarth::cap_area,
+      .def("surface_area",
+           &SphericalEarth::surface_area,
            py::arg("center"),
            py::arg("theta"),
-           "The area of a cap centered at a location with a half-opening angle [km^2].")
+           py::arg("altitude"),
+           "Calculate the sssurface area of a spherical cap. [km^2].")
       .def(
           "radius",
           [](const SphericalEarth& earth, const CartesianCoordinates& locations) -> Array {

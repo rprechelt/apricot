@@ -61,6 +61,18 @@ namespace apricot {
         -> std::optional<CartesianCoordinate> = 0;
 
     /**
+     * Return the area of a cap at a given altitude [km^2].
+     *
+     * @param center    The central polar angle of the cap.
+     * @param theta     The half-opening angle of the cap (radians).
+     * @param altitude  The altitude [km] above the surface of the cap.
+     *
+     */
+    virtual auto
+    surface_area(const double center, const double theta, const double altitude = 0.) const
+        -> double = 0;
+
+    /**
      * Add an atmosphere model to this Earth model.
      *
      * This replaces any existing atmosphere model.
