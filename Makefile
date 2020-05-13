@@ -5,7 +5,7 @@
 # @version 0.0.1
 
 # our testing targets
-.PHONY: tests flake black mypy python build lib tags format
+.PHONY: tests flake black mypy python build lib tags format clean
 
 # setup the cmake library
 lib: format
@@ -43,5 +43,15 @@ isort:
 # generate a TAGS library
 tags:
 	find src include -type f -iname '*.cpp' -or -iname '*.hpp' -exec etags {} +
+
+# clean everything up
+clean:
+	$(RM) -r libapricot.so*
+	$(RM) -r build/*
+	$(RM) -r _apricot.cpython*
+	find . -type d -iname __pycache__ -exec rm -rf {} \+
+	$(RM) -r apricot.egg-info
+	$(RM) -r .auctex-auto
+	$(RM) -r .pytest_cache
 
 # end
