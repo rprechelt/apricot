@@ -40,12 +40,11 @@ Py_Detector(py::module& m) {
       .def("payload_angle",
            &OrbitalDetector::payload_angle,
            "Calculate the payload elevation angle of the event [radians].")
-      .def_property("maxalt",
-                    &OrbitalDetector::get_maxalt,
-                    &OrbitalDetector::set_maxalt)
-      .def_property("maxview",
-                    &OrbitalDetector::get_maxview,
-                    &OrbitalDetector::set_maxview)
+      .def_property("maxalt", &OrbitalDetector::get_maxalt, &OrbitalDetector::set_maxalt)
+      .def_property("maxview", &OrbitalDetector::get_maxview, &OrbitalDetector::set_maxview)
+      .def_property("backwards",
+                    &OrbitalDetector::get_backwards,
+                    &OrbitalDetector::set_backwards)
       .def("__repr__",
            [](const OrbitalDetector& self) -> std::string { return "OrbitalDetector()"; });
 

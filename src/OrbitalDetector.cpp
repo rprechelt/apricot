@@ -64,9 +64,11 @@ OrbitalDetector::visible_direct(const CartesianCoordinate& location,
   // we can check for events whose view angle *back along* the axis is less than
   // max angle. This accounts for events that reach shower max after the payload
   // but whose RF emission may be pass very close by the payload.
+  if (backwards_) {
     if (view_angle(location, -direction) < this->maxview_) {
       return true;
     }
+  } // END: if (backwards_)
 
   // otherwise, we check for events whose view angles *along* the particle axis
   // are less than maxview. This has some additional complexity as paths

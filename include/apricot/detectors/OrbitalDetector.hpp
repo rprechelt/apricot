@@ -37,6 +37,7 @@ namespace apricot {
     const CartesianCoordinate payload_; ///< The current location of the detector [km].
     double maxview_;                    ///< The maximum view angle [radians].
     double maxalt_{100. + 1e-3};        ///< The maximum altitude before we cut.
+    bool backwards_{false};             ///< Whether to check for detections backwards along the axis.
     const DetectionMode mode_;          ///< The detection mode (direct, reflected, or both)
 
     /**
@@ -157,9 +158,27 @@ namespace apricot {
       this->maxalt_ = maxalt;
     }
 
-    ///
-    /// \brief A virtual destructor.
-    ///
+    /*
+     * If we are detecting *backwards along* the shower axis.
+     */
+    auto
+    get_backwards() const -> bool {
+      return this->backwards_;
+    }
+
+    /*
+     * Set our backwards detection status.
+     *
+     * @param maxalt   The new maximum alt angle [degrees].
+     */
+    auto
+    set_backwards(const bool backwards) -> void {
+      this->backwards_ = backwards;
+    }
+
+    /**
+     * A no-op destructor.
+     */
     ~OrbitalDetector(){};
 
   }; // END: Detector
