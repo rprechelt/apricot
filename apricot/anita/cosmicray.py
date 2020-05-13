@@ -153,7 +153,7 @@ def propagate(
 
 def geometric_acceptance(
     events: pd.DataFrame, parameters: pd.DataFrame, delev: float = 0.25,
-) -> pd.DataFrame:
+) -> Optional[pd.DataFrame]:
     """
     Compute the geometric acceptance in payload elevation bins
     given events stored in a DataFrame.
@@ -201,6 +201,10 @@ def geometric_acceptance(
     print(f"Total Geometric Acceptance: {acceptance:.02f} [km^2 sr]")
 
     # we also want to bin the acceptance into payload elevation bins
+
+    # if we only have one event, then we can't produce a payload spectrum
+    if events.shape[0] == 1:
+        return None
 
     # construct a location for the payload
     payload = np.asarray([[0, 0, parameters.Re[0] + parameters.altitude[0]]])
