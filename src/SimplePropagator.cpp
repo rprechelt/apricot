@@ -17,6 +17,9 @@ SimplePropagator::propagate(Source& source, Flux& flux, const Detector& detector
   // get a new trial particle to propagate
   auto [particle, location, direction, info]{new_trial(source, flux)};
 
+  // check if this is a good particle
+  if (!detector.is_good(particle, location, direction)) return tree;
+
   // this is the grammage that we accumulate over this trial
   double grammage{0.};
 
