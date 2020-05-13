@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 
 import _apricot
+import _apricot.geometry
 from _apricot.geometry import *
 
 
@@ -52,7 +53,7 @@ def latlon(
 
 
 def payload_elevation(
-    events: pd.DataFrame, payload: np.ndarray, inplace: bool = False
+    events: pd.DataFrame, payload: np.ndarray, inplace: bool = False, reflected=False,
 ) -> Union[np.ndarray, pd.DataFrame]:
     """
     Calculate the payload elevation angle of various interactions.
@@ -76,8 +77,16 @@ def payload_elevation(
         Payload elevation angles [degrees].
     """
 
+    # if these are reflected events, propagate them to the surface first
+    if reflected:
+        locations = _apricot.geometry.propagate_to_sphere(
+            events.locations(), events.directions(), events.radius
+        )
+    else:
+        locations = events.locations()
+
     # get the vector from the payload to the interaction
-    view = events.locations() - payload
+    view = locations - payload
 
     # normalize the view vector
     view /= np.linalg.norm(view, axis=1).reshape((-1, 1))
