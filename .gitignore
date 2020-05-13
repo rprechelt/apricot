@@ -21,3 +21,6 @@ TAGS
 *.org
 *.coverage
 *.pdf
+
+*.tex
+*.png
