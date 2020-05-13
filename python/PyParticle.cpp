@@ -44,6 +44,7 @@ Py_Particle(py::module& m) {
   // Particle
   py::class_<Particle>(m, "Particle")
       .def_property("energy", &Particle::get_energy, &Particle::set_energy)
+      .def_property_readonly("id", &Particle::get_id, "Get the particle PDG id.")
       .def("__repr__", [](const Particle& p) {
         return "Particle(" + std::to_string(p.get_energy()) + ")";
       });
@@ -73,8 +74,9 @@ Py_Particle(py::module& m) {
   // Nitrogen
   py::class_<Nitrogen, Particle>(m, "Nitrogen")
       .def(py::init<const double>())
-      .def_static(
-          "get_Xmax", &Nitrogen::get_Xmax, "Get the grammage at shower max [g/cm^2].")
+      .def_static("get_Xmax",
+                  &Nitrogen::get_Xmax,
+                  "Get the grammage at shower max [g/cm^2].")
       .def_static("get_Xmax",
                   py::vectorize(&Nitrogen::get_Xmax),
                   "Get the grammage at shower max [g/cm^2].")
@@ -95,8 +97,9 @@ Py_Particle(py::module& m) {
   // MixedUHECR
   py::class_<MixedUHECR, Particle>(m, "MixedUHECR")
       .def(py::init<const double>())
-      .def_static(
-          "get_Xmax", &MixedUHECR::get_Xmax, "Get the grammage at shower max [g/cm^2].")
+      .def_static("get_Xmax",
+                  &MixedUHECR::get_Xmax,
+                  "Get the grammage at shower max [g/cm^2].")
       .def_static("get_Xmax",
                   py::vectorize(&MixedUHECR::get_Xmax),
                   "Get the grammage at shower max [g/cm^2].")
