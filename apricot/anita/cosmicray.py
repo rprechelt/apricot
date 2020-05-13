@@ -207,7 +207,7 @@ def geometric_acceptance(
         return None
 
     # construct a location for the payload
-    payload = np.asarray([[0, 0, parameters.Re[0] + parameters.altitude[0]]])
+    payload = np.asarray([[0, 0, -(parameters.Re[0] + parameters.altitude[0])]])
 
     # so first calculate the payload elevation angles
     apricot.geometry.payload_elevation(events, payload, inplace=True)
