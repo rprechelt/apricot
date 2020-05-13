@@ -177,13 +177,13 @@ def geometric_acceptance(
     """
 
     # the area that we drew the particles from.
-    A = parameters.area[0]
+    A = np.mean(parameters.area)
 
     # the solid angle we drew the particles from
     Omega = 4 * np.pi
 
     # and the total number of particles that we flew
-    ntrials = parameters.ntrials[0]
+    ntrials = parameters.ntrials
 
     # the sum of dot(n, r) - we take the absolute value since
     # the particle normal in apricot is defined radially. However,
@@ -194,7 +194,7 @@ def geometric_acceptance(
     weights = events.weight.abs()
 
     # now compute the total geometric acceptance
-    acceptance = Omega * (A / ntrials) * (weights.sum())
+    acceptance = Omega * A * weights.sum() / ntrials.sum()
 
     # and print!
     print(f"Total Detected Events: {weights.shape[0]}")
@@ -225,7 +225,7 @@ def geometric_acceptance(
     centers = (edges[:-1] + edges[1:]) / 2.0
 
     # and apply the acceptance scaling
-    count *= Omega * (A / ntrials)
+    count *= Omega * A / ntrials.sum()
 
     # and create a Panda's data frame for the binned acceptance
     return pd.DataFrame({"elevation": centers, "acceptance": count})
