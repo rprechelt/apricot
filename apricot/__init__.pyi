@@ -46,6 +46,10 @@ class Detector:
 
 
 class OrbitalDetector(Detector):
+
+    maxalt: float
+    maxview: float
+
     def __init__(self, earth: Earth, payload: np.ndarray, maxview: float, mode: str):
         ...
 

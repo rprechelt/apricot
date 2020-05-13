@@ -3,6 +3,15 @@
 
 using namespace apricot;
 
+OrbitalDetector::OrbitalDetector(const Earth& earth,
+                    const CartesianCoordinate& location,
+                    const double maxview,
+                    const std::string& mode) :
+        earth_(earth),
+        payload_(location),
+        maxview_(deg_to_rad(maxview)),
+        mode_(mode_from_string(mode)){}
+
 auto
 OrbitalDetector::view_angle(const CartesianCoordinate& location,
                             const CartesianCoordinate& direction) const -> Angle {

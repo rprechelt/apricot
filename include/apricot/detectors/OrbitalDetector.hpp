@@ -72,11 +72,7 @@ namespace apricot {
     OrbitalDetector(const Earth& earth,
                     const CartesianCoordinate& location,
                     const double maxview,
-                    const std::string& mode = "both") :
-        earth_(earth),
-        payload_(location),
-        maxview_(deg_to_rad(maxview)),
-        mode_(mode_from_string(mode)){};
+                    const std::string& mode = "direct");
 
     /**
      * True if an interaction is detectable and should be saved.
@@ -141,6 +137,24 @@ namespace apricot {
     auto
     set_maxview(const Angle maxview) -> void {
       this->maxview_ = maxview;
+    }
+
+    /*
+     * Return the maximum altitude [km]
+     */
+    auto
+    get_maxalt() const -> double {
+      return this->maxalt_;
+    }
+
+    /*
+     * Set the maximum altitude [km].
+     *
+     * @param maxalt   The new maximum alt angle [degrees].
+     */
+    auto
+    set_maxalt(const double maxalt) -> void {
+      this->maxalt_ = maxalt;
     }
 
     ///

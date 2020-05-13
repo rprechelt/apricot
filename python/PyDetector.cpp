@@ -1,8 +1,7 @@
 #include "apricot/Detector.hpp"
-#include "apricot/detectors/PerfectDetector.hpp"
-#include "apricot/detectors/OrbitalDetector.hpp"
 #include "apricot/detectors/EnergyCutDetector.hpp"
-
+#include "apricot/detectors/OrbitalDetector.hpp"
+#include "apricot/detectors/PerfectDetector.hpp"
 
 #include <pybind11/eigen.h>
 #include <pybind11/numpy.h>
@@ -41,6 +40,12 @@ Py_Detector(py::module& m) {
       .def("payload_angle",
            &OrbitalDetector::payload_angle,
            "Calculate the payload elevation angle of the event [radians].")
+      .def_property("maxalt",
+                    &OrbitalDetector::get_maxalt,
+                    &OrbitalDetector::set_maxalt)
+      .def_property("maxview",
+                    &OrbitalDetector::get_maxview,
+                    &OrbitalDetector::set_maxview)
       .def("__repr__",
            [](const OrbitalDetector& self) -> std::string { return "OrbitalDetector()"; });
 
