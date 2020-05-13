@@ -20,6 +20,7 @@ import pandas as pd
 
 import apricot
 import apricot.root
+import apricot.geometry
 import apricot.utils.parsing as parsing
 
 
@@ -81,13 +82,15 @@ def propagate(
     # the location of the payload
     payload = np.asarray([0, 0, -(Re + altitude)])
 
-    # use a smaller than default angle to choose source origins from
-    # this is beyond the horizon for ANITA (37.5) viewing a spot
-    # on a spherical cap at 100 km ASL
-    theta = np.pi / 10.0
+    # the maximum geocentric Earth angle for a particle
+    # to view ANITA with an Earth skimming view vector
+    # is the sum of the respective horizon angles
+    # this is 16.25 degrees for 100 km
+    # or 20.33 degrees for 200 km
+    theta = np.pi / 8.
 
-    # we use a surface 100 km above the surface
-    source_altitude = 100.0
+    # we use a surface 150 km above the surface
+    source_altitude = 150.0
 
     # we pick particles on a cap 100km above the surface
     source = apricot.SphericalCapSource(
@@ -100,6 +103,10 @@ def propagate(
     # create a simple detector
     detector = apricot.OrbitalDetector(earth, payload, maxview, mode=mode)
 
+    # make sure that the maximum altitude of the detector
+    # is at least as high as the source altitude
+    detector.maxalt = source_altitude + 1e-3
+
     # create a simple propagator
     propagator = apricot.SimplePropagator(earth)
 
@@ -109,17 +116,26 @@ def propagate(
     # the number of events we got
     Nevents = sum([len(I) for I in interactions])
 
+    # if we didn't detect any events
+    if Nevents == 0:
+        print(f"Simulation did not detect any events...")
+        return
+
+    # get the area of the cap that we draw particle origins on
+    area = earth.surface_area(center=np.pi, theta=theta, altitude=source_altitude)
+
     # we now start constructing the parameters that we save into the output file
     parameters = {
         "ntrials": ntrials,
         "nevents": Nevents,
-        "particle": getattr(apricot, particle.capitalize())(0.).id,
+        "particle": getattr(apricot, particle.capitalize())(0.0).id,
         "fixed_energy": fixed_energy,
         "min_energy": min_energy,
         "max_energy": max_energy,
         "altitude": altitude,
         "maxview": maxview,
         "Re": Re,
+        "area": area,
         "maxtheta": theta,
         "source_altitude": source_altitude,
     }
@@ -131,7 +147,81 @@ def propagate(
     # so we have nice DataFrame's to work with
     events, parameters = apricot.root.from_file(filename)
 
-    # and print a status message
-    print(f"Detected {Nevents} events in {ntrials} trials.")
+    # and use these to calculate the geometric acceptance
+    _ = geometric_acceptance(events, parameters)
 
 
+def geometric_acceptance(
+    events: pd.DataFrame, parameters: pd.DataFrame, delev: float = 0.25,
+) -> pd.DataFrame:
+    """
+    Compute the geometric acceptance in payload elevation bins
+    given events stored in a DataFrame.
+
+    `events` must have an `ntrials` instance member, and an `area`
+    instance member.
+
+    Parameters
+    ----------
+    events: pd.DataFrame
+        A Panda's DataFrame containing the loaded events.
+    parameters: pd.DataFrame
+        The DataFrame containing the simulation parameters.
+    delev: float
+        The size of each payload elevation bin.
+
+    Returns
+    -------
+    geometric_acceptance: pd.DataFrame
+        A Panda's DataFrame containing the geometric acceptance.
+    """
+
+    # the area that we drew the particles from.
+    A = parameters.area[0]
+
+    # the solid angle we drew the particles from
+    Omega = 4 * np.pi
+
+    # and the total number of particles that we flew
+    ntrials = parameters.ntrials[0]
+
+    # the sum of dot(n, r) - we take the absolute value since
+    # the particle normal in apricot is defined radially. However,
+    # in the geometric acceptance integral, the normal is defined as
+    # pointing in the direction of the detector (which is *opposite* our
+    # direction of normal). Since any particles that point above the local
+    # horizontal are cut by apricot, they will never be detected.
+    weights = events.weight.abs()
+
+    # now compute the total geometric acceptance
+    acceptance = Omega * (A / ntrials) * (weights.sum())
+
+    # and print!
+    print(f"Total Detected Events: {weights.shape[0]}")
+    print(f"Total Geometric Acceptance: {acceptance:.02f} [km^2 sr]")
+
+    # we also want to bin the acceptance into payload elevation bins
+
+    # construct a location for the payload
+    payload = np.asarray([[0, 0, parameters.Re[0] + parameters.altitude[0]]])
+
+    # so first calculate the payload elevation angles
+    apricot.geometry.payload_elevation(events, payload, inplace=True)
+
+    # the range of elevations we detector
+    elevrange = np.abs(events.elevation.max() - events.elevation.min())
+
+    # calculate the number of bins that we want
+    nbins = int(round(elevrange / delev))
+
+    # bin up the payload elevation angles - weight by the dot product
+    count, edges = np.histogram(events.elevation, weights=weights, bins=nbins)
+
+    # calculate the center of each histogram bin
+    centers = (edges[:-1] + edges[1:]) / 2.0
+
+    # and apply the acceptance scaling
+    count *= Omega * (A / ntrials)
+
+    # and create a Panda's data frame for the binned acceptance
+    return pd.DataFrame({"elevation": centers, "acceptance": count})
