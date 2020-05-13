@@ -16,8 +16,10 @@ with open(path.join(here, "README.md"), encoding="utf-8") as f:
 setup(
     name="apricot",
     version=__version__,
-    description=("Propagate ultra-high-energy particles through the Earth"
-                 " to Antarctica and beyond!"),
+    description=(
+        "Propagate ultra-high-energy particles through the Earth"
+        " to Antarctica and beyond!"
+    ),
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/rprechelt/apricot",
@@ -32,12 +34,29 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
     ],
-    keywords="anita science neutrino point source antarctica cosmic ray",
+    keywords=[
+        "anita",
+        "science",
+        "neutrino",
+        "point",
+        "source",
+        "antarctica",
+        "cosmic ray",
+    ],
     packages=["apricot"],
     python_requires=">=3.6*, <4",
     install_requires=["configargparse", "numpy"],
     extras_require={
-        "test": ["matplotlib", "uproot", "pytest", "coverage"],
+        "test": [
+            "matplotlib",
+            "uproot",
+            "isort",
+            "mypy",
+            "black",
+            "flake8",
+            "pytest",
+            "coverage",
+        ],
         "root": ["uproot", "pandas"],
     },
     scripts=["scripts/apricot"],
@@ -46,9 +65,8 @@ setup(
         "ANITA Github": "https://github.com/anitaNeutrino",
     },
     include_package_data=True,
-
     # call into CMake to build our module
     ext_modules=[CMakeExtension("_apricot")],
     cmdclass={"build_ext": CMakeBuild},
-    zip_safe=False
+    zip_safe=False,
 )
