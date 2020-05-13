@@ -137,7 +137,7 @@ namespace apricot {
      */
     auto
     set_maxview(const Angle maxview) -> void {
-      this->maxview_ = maxview;
+      this->maxview_ = deg_to_rad(maxview);
     }
 
     /*
