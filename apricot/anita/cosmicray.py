@@ -151,9 +151,8 @@ def propagate(
     _ = geometric_acceptance(events, parameters)
 
 
-def geometric_acceptance(
-    events: pd.DataFrame, parameters: pd.DataFrame, delev: float = 0.25,
-) -> Optional[pd.DataFrame]:
+def geometric_acceptance( events: pd.DataFrame, parameters: pd.DataFrame, delev:
+                          float = 0.25, reflected: bool = False) -> Optional[pd.DataFrame]:
     """
     Compute the geometric acceptance in payload elevation bins
     given events stored in a DataFrame.
@@ -210,7 +209,7 @@ def geometric_acceptance(
     payload = np.asarray([[0, 0, -(parameters.Re[0] + parameters.altitude[0])]])
 
     # so first calculate the payload elevation angles
-    apricot.geometry.payload_elevation(events, payload, inplace=True)
+    apricot.geometry.payload_elevation(events, payload, inplace=True, reflected=reflected)
 
     # the range of elevations we detector
     elevrange = np.abs(events.elevation.max() - events.elevation.min())
