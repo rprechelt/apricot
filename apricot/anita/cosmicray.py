@@ -205,11 +205,8 @@ def geometric_acceptance( events: pd.DataFrame, parameters: pd.DataFrame, delev:
     if events.shape[0] == 1:
         return None
 
-    # construct a location for the payload
-    payload = np.asarray([[0, 0, -(parameters.Re[0] + parameters.altitude[0])]])
-
     # so first calculate the payload elevation angles
-    apricot.geometry.payload_elevation(events, payload, inplace=True, reflected=reflected)
+    apricot.geometry.payload_elevation(events, parameters, inplace=True, reflected=reflected)
 
     # the range of elevations we detector
     elevrange = np.abs(events.elevation.max() - events.elevation.min())

@@ -31,7 +31,7 @@ def latlon(
     """
 
     # compute the radius of these events
-    radius = np.linalg.norm(events.locations(), axis=1)
+    radius = np.linalg.norm(get_locations(events), axis=1)
 
     # and the longitude
     longitude = np.degrees(np.arctan2(events["location.y"], events["location.x"]))
@@ -53,7 +53,7 @@ def latlon(
 
 
 def payload_elevation(
-    events: pd.DataFrame, payload: np.ndarray, inplace: bool = False, reflected=False,
+    events: pd.DataFrame, parameters: pd.DataFrame, inplace: bool = False, reflected=False,
 ) -> Union[np.ndarray, pd.DataFrame]:
     """
     Calculate the payload elevation angle of various interactions.
@@ -66,8 +66,8 @@ def payload_elevation(
     ----------
     events: pd.DataFrame
         apricot interactions stored in a DataFrame
-    payload: np.ndarray
-        A (1, 3) array containing the location of the payload.
+    parameters: pd.DataFrame
+        Apricot parameters stored in a pandas DataFrame
     inplace: bool
         If True, add elevation angles to DataFrame.
 
@@ -77,13 +77,16 @@ def payload_elevation(
         Payload elevation angles [degrees].
     """
 
+    # construct the payload from the parameters
+    payload = get_payload(parameters)
+
     # if these are reflected events, propagate them to the surface first
     if reflected:
         locations = _apricot.geometry.propagate_to_sphere(
-            events.locations(), events.directions(), events.radius
+            get_locations(events), get_directions(events), events.radius
         )
     else:
-        locations = events.locations()
+        locations = get_locations(events)
 
     # get the vector from the payload to the interaction
     view = locations - payload
@@ -100,7 +103,7 @@ def payload_elevation(
 
     # we now calculate the off-axis view angles
     # for each of these events
-    offaxis = view_angle(events, payload)
+    offaxis = view_angle(events, parameters)
 
     # if the offaxis is greater than 90 degrees, we need to
     # reflect the elevation angles above the horizon
@@ -122,7 +125,7 @@ def payload_elevation(
 
 
 def view_angle(
-    events: pd.DataFrame, payload: np.ndarray, inplace: bool = False
+    events: pd.DataFrame, parameters: pd.DataFrame, inplace: bool = False
 ) -> Union[np.ndarray, pd.DataFrame]:
     """
     Calculate the view angle from shower max to the payload
@@ -133,9 +136,9 @@ def view_angle(
     Parameters
     ----------
     events: pd.DataFrame
-        apricot interactions stored in a pandas DataFrame
-    payload: np.ndarray
-        A (1, 3) array containing the location of the payload.
+        Apricot interactions stored in a pandas DataFrame
+    parameters: pd.DataFrame
+        Apricot parameters stored in a pandas DataFrame
     inplace: bool
         If True, add the view angles to the DataFrame.
 
@@ -145,14 +148,17 @@ def view_angle(
         Cosmic ray view angles [degrees].
     """
 
+    # construct the payload from the parameters
+    payload = get_payload(parameters)
+
     # get the vector from the interaction to the payload
-    view = payload - events.locations()
+    view = payload - get_locations(events)
 
     # normalize the view vector
     view /= np.linalg.norm(view, axis=1).reshape((-1, 1))
 
     # and compute the dot product between view and the shower axis
-    dot = np.einsum("ij,ij->i", events.directions(), view)
+    dot = np.einsum("ij,ij->i", get_directions(events), view)
 
     # and convert this to an angle in degrees.
     angles = np.degrees(np.arccos(dot))
@@ -163,3 +169,63 @@ def view_angle(
 
     # otherwise, just return the angle's
     return angles
+
+
+def get_locations(events: pd.DataFrame) -> np.ndarray:
+    """
+    Get the (N, 3) location of each event.
+
+    Parameters
+    ----------
+    events: pd.DataFrame
+        Apricot events loaded in a DatFrame.
+
+    Returns
+    -------
+    locations: np.ndarray
+        A (N, 3) NumPy array containing event locations.
+    """
+
+    return (
+        np.vstack([events["location.x"], events["location.y"], events["location.z"]])
+        .T
+    )
+
+
+def get_directions(events: pd.DataFrame) -> np.ndarray:
+    """
+    Get the (N, 3) location of each event.
+
+    Parameters
+    ----------
+    events: pd.DataFrame
+        Apricot events loaded in a DatFrame.
+
+    Returns
+    -------
+    directions: np.ndarray
+        A (N, 3) NumPy array containing event directions.
+    """
+
+    return (
+        np.vstack([events["direction.x"], events["direction.y"], events["direction.z"]])
+        .T
+    )
+
+
+def get_payload(parameters: pd.DataFrame) -> np.ndarray:
+    """
+    Get the (N, 3) location the payload
+
+    Parameters
+    ----------
+    parameters: pd.DataFrame
+        Apricot simulation parameters loaded in a DatFrame.
+
+    Returns
+    -------
+    payload: np.ndarray
+        A (1, 3) NumPy array containing the paload location
+    """
+
+    return np.asarray([[0.0, 0.0, -(parameters.Re[0] + parameters.altitude[0])]])
