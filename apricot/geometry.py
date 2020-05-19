@@ -134,6 +134,75 @@ def payload_elevation(
     return angle
 
 
+def reflected_view_angle(
+    events: pd.DataFrame,
+    parameters: pd.DataFrame,
+    inplace: bool = False,
+) -> Union[np.ndarray, pd.DataFrame]:
+    """
+    Calculate the view angle for reflected interactions.
+
+    This returns the angle in degrees w.r.t the payload horizon
+    of the interaction location as seen from the payload. Positive
+    is above the payload horizontal, negative below.
+
+    Parameters
+    ----------
+    events: pd.DataFrame
+        apricot interactions stored in a DataFrame
+    parameters: pd.DataFrame
+        Apricot parameters stored in a pandas DataFrame
+    inplace: bool
+        If True, add elevation angles to DataFrame.
+
+
+    Returns
+    -------
+    elevation_angle: np.ndarray
+        Payload elevation angles [degrees].
+    """
+
+    # get the (N, 3) location of these events
+    locations = get_locations(events)
+
+    # and the (N, 3) direction of these events
+    directions = get_directions(events)
+
+    # construct the payload from the parameters
+    payload = get_payload(parameters)
+
+    # propagate to the surface
+    surface = propagate_to_sphere(locations, directions, parameters.Re[0])
+
+    # construct the normal vector at the surface
+    normal = surface / np.linalg.norm(surface, axis=1).reshape((-1, 1))
+
+    # compute the view vector of the payload from the surface
+    surface_view = payload - surface
+
+    # reflect this vector below the surface
+    reflected = reflect_below(surface_view, normal)
+
+    # compute the reflected location of the payload
+    reflected_payload = surface + reflected
+
+    # the vector from the interaction point to the payload
+    view = reflected_payload - locations
+
+    # normalize the view vector
+    view /= np.linalg.norm(view, axis=1).reshape((-1, 1))
+
+    # and compute the angle w.r.t to the shower axis
+    offaxis = np.degrees(np.arccos(np.einsum("ij,ij->i", view, directions)))
+
+    # if we have inplace, add it to the DataFrame
+    if inplace:
+        events["view"] = offaxis
+
+    # otherwise, just return it
+    return offaxis
+
+
 def view_angle(
     events: pd.DataFrame, parameters: pd.DataFrame, inplace: bool = False
 ) -> Union[np.ndarray, pd.DataFrame]:
@@ -196,10 +265,9 @@ def get_locations(events: pd.DataFrame) -> np.ndarray:
         A (N, 3) NumPy array containing event locations.
     """
 
-    return (
-        np.vstack([events["location.x"], events["location.y"], events["location.z"]])
-        .T
-    )
+    return np.vstack(
+        [events["location.x"], events["location.y"], events["location.z"]]
+    ).T
 
 
 def get_directions(events: pd.DataFrame) -> np.ndarray:
@@ -217,10 +285,9 @@ def get_directions(events: pd.DataFrame) -> np.ndarray:
         A (N, 3) NumPy array containing event directions.
     """
 
-    return (
-        np.vstack([events["direction.x"], events["direction.y"], events["direction.z"]])
-        .T
-    )
+    return np.vstack(
+        [events["direction.x"], events["direction.y"], events["direction.z"]]
+    ).T
 
 
 def get_payload(parameters: pd.DataFrame) -> np.ndarray:
