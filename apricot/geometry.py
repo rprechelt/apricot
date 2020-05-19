@@ -1,14 +1,20 @@
 """
 Provide various geometry related functions for apricot data.
 """
-from typing import Union
+from typing import Any, Union
 
 import numpy as np
 import pandas as pd
 
 import _apricot
 import _apricot.geometry
-from _apricot.geometry import *
+from _apricot.geometry import (
+    propagate_to_sphere,
+    random_cap_point,
+    random_spherical_point,
+    reflect_below,
+    spherical_cap_area,
+)
 
 
 def latlon(
@@ -53,7 +59,11 @@ def latlon(
 
 
 def payload_elevation(
-    events: pd.DataFrame, parameters: pd.DataFrame, inplace: bool = False, reflected=False,
+    events: pd.DataFrame,
+    parameters: pd.DataFrame,
+    inplace: bool = False,
+    reflected=False,
+    **kwargs: Any
 ) -> Union[np.ndarray, pd.DataFrame]:
     """
     Calculate the payload elevation angle of various interactions.
@@ -83,7 +93,7 @@ def payload_elevation(
     # if these are reflected events, propagate them to the surface first
     if reflected:
         locations = _apricot.geometry.propagate_to_sphere(
-            get_locations(events), get_directions(events), events.radius
+            get_locations(events), get_directions(events), parameters.Re[0]
         )
     else:
         locations = get_locations(events)
