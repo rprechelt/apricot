@@ -87,7 +87,7 @@ def propagate(
     # is the sum of the respective horizon angles
     # this is 16.25 degrees for 100 km
     # or 20.33 degrees for 200 km
-    theta = np.pi / 8.
+    theta = np.pi / 8.0
 
     # we use a surface 150 km above the surface
     source_altitude = 150.0
@@ -151,8 +151,12 @@ def propagate(
     _ = geometric_acceptance(events, parameters)
 
 
-def geometric_acceptance( events: pd.DataFrame, parameters: pd.DataFrame, delev:
-                          float = 0.25, reflected: bool = False) -> Optional[pd.DataFrame]:
+def geometric_acceptance(
+    events: pd.DataFrame,
+    parameters: pd.DataFrame,
+    delev: float = 0.25,
+    reflected: bool = False,
+) -> Optional[pd.DataFrame]:
     """
     Compute the geometric acceptance in payload elevation bins
     given events stored in a DataFrame.
@@ -206,7 +210,9 @@ def geometric_acceptance( events: pd.DataFrame, parameters: pd.DataFrame, delev:
         return None
 
     # so first calculate the payload elevation angles
-    apricot.geometry.payload_elevation(events, parameters, inplace=True, reflected=reflected)
+    apricot.geometry.payload_elevation(
+        events, parameters, inplace=True, reflected=reflected
+    )
 
     # the range of elevations we detector
     elevrange = np.abs(events.elevation.max() - events.elevation.min())
