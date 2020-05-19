@@ -123,14 +123,17 @@ def to_file(
             }
         )
 
+        # sanitize the parameters
+        parameters = _sanitize_parameters(parameters)
+
         # create the branches for the parameter tree
-        param_branches = {k: type(v) for k, v in parameters.items()}
+        param_branches = {k: type(v[0]) for k, v in parameters.items()}
 
         # create the parmaeter tree
         f["parameters"] = uproot.newtree(param_branches, title="parameters")
 
         # and write the data to the three
-        f["parameters"].extend(_sanitize_parameters(parameters))
+        f["parameters"].extend(parameters)
 
     # and we are done
 
