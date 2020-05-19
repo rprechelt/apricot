@@ -39,8 +39,11 @@ OrbitalDetector::visible_reflected(const CartesianCoordinate& location,
   // get the vector *to* the payload from the surface intersection
   const auto surface_view{payload_ - *surface};
 
-  // reflect this view vector below the surface to find the proxy payload
-  const auto reflected_payload{reflect_below(surface_view, (*surface).normalized())};
+  // reflect this view vector below the surface
+  const auto reflected{reflect_below(surface_view, (*surface).normalized())};
+
+  // and then compute the new reflected location of the payload
+  const auto reflected_payload{*surface + reflected};
 
   // now compute the view vector from the interaction to the reflected payload
   const auto view{(reflected_payload - location).normalized()};
