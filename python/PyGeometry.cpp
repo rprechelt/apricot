@@ -82,5 +82,36 @@ Py_Geometry(py::module& m) {
   geometry.def("reflect_below",
                &reflect_below,
                py::arg("location"),
-               py::arg("normal"));
+               py::arg("normal"),
+               "Reflect a vector below the surface defined by a normal.");
+    geometry.def("reflect_below",
+               [](const Eigen::Matrix<double, Eigen::Dynamic, 3> locations,
+                  const Eigen::Matrix<double, Eigen::Dynamic, 3> normals) -> Eigen::Matrix<double, Eigen::Dynamic, 3> {
+
+                 // get the number of rows in the input
+                 const auto N{locations.rows()};
+
+                 // check that directions has the same number of rows
+                 if (N != normals.rows()) {
+                   throw std::invalid_argument("`locations` and `normals` are different sizes!");
+                 }
+
+                 // create the output array
+                 Eigen::Matrix<double, Eigen::Dynamic, 3> out(N, 3);
+
+                 // loop over the number of input rows
+                 for (int i = 0; i < N; ++i) {
+
+                   // and reflecte each row
+                   out.row(i) = reflect_below(locations.row(i), normals.row(i));
+
+                 }
+
+                 // and return the surface points
+                 return out;
+
+               },
+               py::arg("locations"),
+               py::arg("normals"),
+               "Reflect a vector below the surface defined by a normal.");
 }
