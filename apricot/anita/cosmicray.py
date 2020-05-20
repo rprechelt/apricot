@@ -231,3 +231,34 @@ def geometric_acceptance(
 
     # and create a Panda's data frame for the binned acceptance
     return pd.DataFrame({"elevation": centers, "acceptance": count})
+
+
+def analytical_reflected_acceptance(Re: float, h: float, maxview: float) -> float:
+    """
+    Compute an analytical estimate of the geometric acceptance
+    of an ideal detector to *reflected* EAS.
+
+    This uses ArXiV:1309.0561 to calculate an analytical estimate
+    of the geometric acceptance of a perfect detector at a height `h`
+    above an Earth with radius `Re` where `maxview` is the maximum
+    view angle from the axis-surface intersection point.
+
+    Parameters
+    ----------
+    Re: float
+        The Earth radius. (km).
+    h: float
+        The height of the observatory (km).
+    maxview: float
+        The maximum view angle (degrees).
+    """
+
+    # convert maxview into radians
+    theta = np.radians(maxview)
+
+    # and performr the calculation
+    return (
+        2
+        * np.power(np.pi * np.sin(theta), 2.0)
+        * ((np.power(h * (2 * Re + h), 1.5) - h * h * (3 * Re + h)) / (3 * (Re + h)))
+    )
